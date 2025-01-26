@@ -13,6 +13,8 @@ const apiUrl = `${currentOrigin}`;
 
 const formLogin = document.querySelector('.login-form');
 const formSignUp = document.querySelector('.register-form');
+const formForgotPwd = document.querySelector('.forgot-password-page');
+const resetPassword = document.querySelector('.reset-password-page');
 
 if (formLogin || formSignUp) {
     document.addEventListener('DOMContentLoaded', function () {
@@ -53,6 +55,49 @@ if (formSignUp) {
     })
 }
 
+if (formForgotPwd) {
+    document.getElementById('sendButton').addEventListener('click', async () => {
+        const email = document.getElementById('emailForgot').value;
+        if (email) {
+            await axios({
+                method: 'POST',
+                url: `${apiUrl}/api/v1/user/forgotPassword`,
+                data: {
+                    email
+                }
+            });
+            alert(`A password reset link has been sent to ${email}`);
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    });
+}
+
+if (resetPassword) {
+    document.getElementById('resetButton').addEventListener('click', async () => {
+        const token = currentUrl.substring(currentUrl.lastIndexOf('/') + 1, currentUrl.length);
+        const password = document.getElementById('newPassword').value;
+        const passwordConfirm = document.getElementById('confirmPassword').value;
+
+        if (password && passwordConfirm) {
+            if (password === passwordConfirm) {
+                await axios({
+                    method: 'PATCH',
+                    url: `${apiUrl}/api/v1/user/resetPassword/${token}`,
+                    data: {
+                        password,
+                        passwordConfirm
+                    }
+                });
+                alert('Your password has been successfully reset!');
+            } else {
+                alert('Passwords do not match. Please try again.');
+            }
+        } else {
+            alert('Please fill out both fields.');
+        }
+    });
+}
 
 const logoutBtn = document.querySelector('.user_board-item.item-logout');
 
@@ -204,7 +249,7 @@ if (bookingOfUser) {
                     if (rs.data.status === 'success') {
                         location.reload();
                     } else if (rs.data.status === 'fail') {
-                        alert('Huỷ tour chỉ áp dụng trong vòng 3 ngày sau khi đặt và không thể huỷ sát ngày. Mong quý khách thông cảm😥');
+                        alert('Huỷ tour chỉ áp dụng trước khi tour bắt đầu 4 ngày. Mong quý khách thông cảm😥');
                     }
                 } catch (error) {
                     alert('Đã có lỗi xảy ra khi huỷ tour. Vui lòng thử lại sau.');

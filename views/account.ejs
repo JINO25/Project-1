@@ -107,7 +107,7 @@
                                             <%= el.price.toLocaleString()%>đ
                                         </td>
                                         <% const today=new Date(); %>
-                                            <% if(today>= el.createdAt){ %>
+                                            <% if(today>= el.date){ %>
                                                 <td>
                                                     <a class="btn btn-review btn-primary"
                                                         href="tour/<%=el.tour._id%>">Review

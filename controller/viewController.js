@@ -42,7 +42,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
         return next(new CreateError('No tour found with that name', 404));
     }
 
-    console.log(tour);
     //find the reviews of users
     const users = await User.find();
 
@@ -139,13 +138,16 @@ exports.getAccount = catchAsync(async (req, res, next) => {
 
 function isThreeDaysDifference(createdAt) {
     const now = new Date();
-    console.log(now)
-    const differenceInMilliseconds = createdAt - now;
+    const [day, month, year] = createdAt.split('/').map(Number);
+    const bookingDate = new Date(year, month - 1, day);
+    console.log(bookingDate)
+    const differenceInMilliseconds = bookingDate - now;
+    console.log(differenceInMilliseconds)
 
     // Convert milliseconds to days
     const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+    console.log(differenceInDays)
 
-    // Check if the difference is exactly 3 days (considering small deviations with Math.floor)
     return Math.round(differenceInDays);
 }
 
@@ -155,9 +157,9 @@ exports.cancelBookingTour = (async (req, res) => {
 
     const data = await Booking.findOne({ _id: bookingId, user: user.id });
 
-    const check = isThreeDaysDifference(data.createdAt);
+    const check = isThreeDaysDifference(data.date);
 
-    if (check > 1 && check <= 3) {
+    if (check > 4) {
         await Booking.deleteOne(data);
 
         return res.status(200).json({
@@ -193,3 +195,11 @@ exports.getBooking = (async (req, res) => {
         tourQuantity
     });
 });
+
+exports.getForgotPassword = async (req, res) => {
+    res.status(200).render('forgotPassword');
+}
+
+exports.getResetPassword = (req, res) => {
+    res.status(200).render('resetPassword');
+}

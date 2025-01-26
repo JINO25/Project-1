@@ -87,7 +87,6 @@ exports.createCheckOutSession = catchAsync(async (req, res, next) => {
         line_items: [
             {
                 quantity: quantity,
-                date: date,
                 price_data: {
                     currency: 'VND',
                     unit_amount: tour.price * 1,
@@ -127,7 +126,6 @@ exports.createCheckoutSessionGuest = catchAsync(async (req, res) => {
         line_items: [
             {
                 quantity: quantity,
-                date: date,
                 price_data: {
                     currency: 'VND',
                     unit_amount: tour.price * 1,

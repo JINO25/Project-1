@@ -16,6 +16,10 @@ router.get('/login', authController.isLogin, viewsController.getLogin);
 router.get('/me', authController.protect, viewsController.getAccount);
 router.get('/booking/:id', authController.isLogin, viewsController.getBooking);
 
+router.get('/forgotPassword', viewsController.getForgotPassword);
+router.get('/resetPassword/:token', viewsController.getResetPassword);
+
+
 
 router.get(
     '/success',
