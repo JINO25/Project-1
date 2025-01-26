@@ -1,0 +1,409 @@
+<%- include('header'); -%>
+    <!-- END nav -->
+    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body d-flex align-items-center ml-3">
+                <i class="fa-solid fa-circle-xmark" style="color: red; font-size: 18px;"></i>
+                <p style="margin: 0; padding:10px; font-size:16px;">Rất tiếc Tour hiện tại số chỗ còn nhận chỉ còn:
+                    <span class="number_quantity">
+                        <%=tourQuantity%>
+                    </span>
+                    chỗ
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="container">
+            <section class="page-order-booking__header">
+                <div class="page-order-booking__header--content section-container">
+                    <button aria-label="Quay lại" class="page-order-booking__header--content__back-button"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                            <path fill="#000" fill-rule="evenodd"
+                                d="M5.47 12.53a.75.75 0 0 1 0-1.06l4-4a.75.75 0 1 1 1.06 1.06l-2.72 2.72H18a.75.75 0 0 1 0 1.5H7.81l2.72 2.72a.75.75 0 1 1-1.06 1.06z"
+                                clip-rule="evenodd"></path>
+                        </svg><span><a href="/tour/<%=tour.slug%>">Quay lại </a></span></button>
+                    <h1>Đặt tour</h1>
+                </div>
+            </section>
+            <section class="page-order-booking__body">
+                <section class="page-order-booking__body--left">
+                    <section class="page-order-booking__body--item">
+                        <h3>Thông Tin Liên Lạc</h3>
+                        <% if(user) { %>
+                            <div class="contact__user">
+                                <i class="fa-solid fa-user"></i>
+                                <div class="change-information__user">
+                                    <span><a href="/me">Thay đổi thông tin</a></span>
+                                </div>
+                            </div>
+                            <form class="contact__user-information logged-in">
+                                <div class="contact__user-information--content">
+                                    <ul>
+                                        <li>
+                                            <label>Họ tên <span class="text-danger">*</span></label>
+                                        </li>
+                                        <li>
+                                            <label class="name" style="font-weight: 300;">
+                                                <%=user.name%>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li>
+                                            <label>Email <span class="text-danger">*</span></label>
+                                        </li>
+                                        <li>
+                                            <label class="email" style="font-weight: 300;">
+                                                <%=user.email%>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="contact__user-information--content">
+                                    <ul>
+                                        <li>
+                                            <label>Điện thoại <span class="text-danger">*</span></label>
+                                        </li>
+                                        <li>
+                                            <label class="phone" style="font-weight: 300;">
+                                                0<%=user.phone%>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li>
+                                            <label class="address">Địa chỉ</label>
+                                        </li>
+                                        <li>
+                                            <input type="text" placeholder="Nhập địa chỉ">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                            <%}else{ %>
+                                <div class="contact__user">
+                                    <i class="fa-solid fa-user"></i>
+                                    <div class="change-information__user--login">
+                                        <span><a href="#">Đăng nhập</a> để quản lý dễ hơn</span>
+                                    </div>
+                                </div>
+                                <form class="contact__user-information">
+                                    <div class="contact__user-information--content">
+                                        <ul>
+                                            <li>
+                                                <label>Họ tên <span class="text-danger">*</span></label>
+                                            </li>
+                                            <li>
+                                                <input class="name" type="text" placeholder="Nhập họ tên">
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                <label>Email <span class="text-danger">*</span></label>
+                                            </li>
+                                            <li>
+                                                <input class="email" type="text" placeholder="Nhập email">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="contact__user-information--content">
+                                        <ul>
+                                            <li>
+                                                <label>Điện thoại <span class="text-danger">*</span></label>
+                                            </li>
+                                            <li>
+                                                <input class="phone" type="text" placeholder="Nhập số điện thoại">
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                <label>Địa chỉ</label>
+                                            </li>
+                                            <li>
+                                                <input class="address" type="text" placeholder="Nhập địa chỉ">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+                                <%}%>
+                    </section>
+
+                    <section class="page-order-booking__body--time">
+                        <h3>Chọn ngày khởi hành:</h3>
+                        <div class="departure-dates">
+                            <h4></h4>
+                            <div class="date-selector">
+                                <% for(let i=0; i<tour.startDate.length; i++) { %>
+                                    <button class="date-option" data-date="<%= tour.startDate[i].date %>">
+                                        <%= tour.startDate[i].date %>
+                                    </button>
+                                    <% } %>
+                            </div>
+                            <input type="hidden" id="selectedDate" name="selectedDate">
+                        </div>
+                    </section>
+                    <!-- <section class="page-order-booking__body--item"></section> -->
+                    <section class="page-order-booking__body--content--item">
+                        <h3>Hành khách</h3>
+                        <div class="booking__wrapper">
+                            <div class="booking__wrapper--input">
+                                <div class="wrapper">
+                                    <div class="type">
+                                        <p>Người lớn</p>
+                                        <small>(Từ 12 tuổi)</small>
+                                    </div>
+                                    <div class="quantity"><button aria-label="Giảm số lượng" type="button"
+                                            class="quantity-remove quantity-button">-</button><input id="adults"
+                                            step="1" min="1" max="<%=tourQuantity%>" type="number" value="1"><button
+                                            aria-label="Tăng số lượng" type="button"
+                                            class="quantity-add quantity-button">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="booking__wrapper--input">
+                                <div class="wrapper">
+                                    <div class="type">
+                                        <p>Trẻ em</p>
+                                        <small>(Từ 5 - 11 tuổi)</small>
+                                    </div>
+                                    <div class="quantity"><button aria-label="Giảm số lượng" type="button"
+                                            class="quantity-remove quantity-button">-</button><input id="children"
+                                            step="1" min="0" type="number" value="0"><button aria-label="Tăng số lượng"
+                                            type="button" class="quantity-add quantity-button">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="booking__wrapper--input">
+                                <div class="wrapper">
+                                    <div class="type">
+                                        <p>Trẻ nhỏ</p>
+                                        <small>(Từ 2 - 4 tuổi)</small>
+                                    </div>
+                                    <div class="quantity"><button aria-label="Giảm số lượng" type="button"
+                                            class="quantity-remove quantity-button">-</button><input id="youngChildren"
+                                            step="1" min="0" type="number" value="0"><button aria-label="Tăng số lượng"
+                                            type="button" class="quantity-add quantity-button">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="booking__wrapper--input">
+                                <div class="wrapper">
+                                    <div class="type">
+                                        <p>Em bé</p>
+                                        <small>(Dưới 2 tuổi)</small>
+                                    </div>
+                                    <div class="quantity"><button aria-label="Giảm số lượng" type="button"
+                                            class="quantity-remove quantity-button">-</button><input id="infants"
+                                            step="1" min="0" type="number" value="0"><button aria-label="Tăng số lượng"
+                                            type="button" class="quantity-add quantity-button">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="page-order-booking__body--content--item">
+                        <h3>Các hình thức thanh toán</h3>
+                        <div class="booking-method--list">
+                            <div class="collapse-checkbox">
+                                <div class="collapse-checkbox--content">
+                                    <div class="collapse-checkbox--content__title">
+                                        <i class="fa-regular fa-money-bill-1"></i>
+                                        <p>Tiền mặt</p>
+                                    </div>
+                                    <input type="checkbox" value="1" id="checkbox">
+                                </div>
+                                <div class="collapsible inactive">
+                                    <p class="content">Quý khách vui lòng thanh toán tại bất kỳ văn phòng Vietravel
+                                        trên toàn quốc và các chi nhánh tại nước ngoài.</p>
+                                </div>
+                            </div>
+                            <div class="collapse-checkbox">
+                                <div class="collapse-checkbox--content">
+                                    <div class="collapse-checkbox--content__title">
+                                        <i class="fa-solid fa-credit-card"></i>
+                                        <p>Payment</p>
+                                    </div>
+                                    <input type="checkbox" value="2" id="checkbox">
+                                </div>
+                                <div class="collapsible inactive">
+                                    <p class="content">
+                                        THANH TOÁN BẰNG THẺ TÍN DỤNG</br>
+                                        Tất cả giao dịch của Quý khách được xử lý bảo mật theo giao thức SSL tại hệ
+                                        thống của Payment. DirEngine không lưu
+                                        giữ bất kì thông tin nào về thẻ của quý khách tại hệ thống của DirEngine. Do đó,
+                                        quý khách có thể hoàn toàn an tâm rằng
+                                        thông tin thẻ của Quý khách sẽ được bảo đảm an toàn tuyệt đối tại hệ thống của
+                                        Payment.</br>
+
+                                        Hiện tại hệ thống chấp nhận cho Quý khách thanh toán bằng một
+                                        trong các loại thẻ sau: VISA (Credit
+                                        hoặc Debit), MasterCard (Credit), Payment.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+                <section class="page-order-booking__body--right">
+                    <section class="user__information">
+                        <div class="summary">
+                            <h3>Tóm tắt tour</h3>
+                            <div class="card">
+                                <div class="card__header">
+                                    <div class="card__header--image">
+                                        <img src="/img/tour/<%=tour.imageCover %>" alt="Tour">
+                                    </div>
+                                    <div class="card__header--title">
+                                        <h4>
+                                            <%= tour.name %>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="card__body">
+                                    <div class="card__body--header">
+                                        <div class="left">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <span>Khởi hành: <span class="startLocation">
+                                                    <%=tour.startLocation%>
+                                                </span></span>
+                                        </div>
+                                        <div class="right-time">
+                                            <div class="time">
+                                                <i class="fa-solid fa-calendar-days"></i>
+                                                <span>
+                                                    <%=tour.duration%>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card__body--header">
+                                        <div class="left">
+                                            <i class="fa-solid fa-users"></i>
+                                            <span>Khách hàng + phụ thu</span>
+                                        </div>
+                                        <div class="right">
+                                            <p class="price">
+                                                <%=tour.price.toLocaleString()%> đ
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row adults">
+                                        <div class="left">Người lớn</div>
+                                        <div class="right">
+                                            <div class="amount">1</div>
+                                            <div class="price">X <%=tour.price.toLocaleString()%> đ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card__footer">
+                                    <div class="row">
+                                        <div class="left">Tổng tiền</div>
+                                        <div class="right">
+                                            <%=tour.price.toLocaleString()%> đ
+                                        </div>
+                                    </div>
+                                </div>
+                                <%if(user){%>
+                                    <button class="btn-book button" data-id="<%=tour._id%>" type="button"
+                                        aria-label="Đặt tour">Đặt
+                                        ngay</button>
+                                    <%}else{%>
+                                        <button class="btn-book disabled button" data-id="<%=tour._id%>" type="button"
+                                            aria-label="Đặt tour" disabled="">Nhập thông tin để đặt tour</button>
+                                        <%}%>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </section>
+        </div>
+    </div>
+
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">dirEngine</h2>
+                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+                            there live the blind texts.</p>
+                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                            <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                            <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                            <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4 ml-md-5">
+                        <h2 class="ftco-heading-2">Information</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="py-2 d-block">About</a></li>
+                            <li><a href="#" class="py-2 d-block">Service</a></li>
+                            <li><a href="#" class="py-2 d-block">Terms and Conditions</a></li>
+                            <li><a href="#" class="py-2 d-block">Become a partner</a></li>
+                            <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
+                            <li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Customer Support</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="py-2 d-block">FAQ</a></li>
+                            <li><a href="#" class="py-2 d-block">Payment Option</a></li>
+                            <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
+                            <li><a href="#" class="py-2 d-block">How it works</a></li>
+                            <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2">Have a Questions?</h2>
+                        <div class="block-23 mb-3">
+                            <ul>
+                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain
+                                        View, San Francisco, California, USA</span></li>
+                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929
+                                            210</span></a></li>
+                                <li><a href="#"><span class="icon icon-envelope"></span><span
+                                            class="text">info@yourdomain.com</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+
+                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template
+                        is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                            target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#F96D00" />
+        </svg></div>
+
+
+
+    <script type="module" src="/js/js2/stripe.js"></script>
+    <script type="module" src="/js/js2/bookingTour.js"></script>
+    <%- include('footer'); -%>

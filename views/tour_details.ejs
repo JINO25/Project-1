@@ -1,0 +1,597 @@
+<%- include('header'); -%>
+    <!-- END nav -->
+
+    <div class="hero-wrap js-fullheight" style="background-image: url(/images/image_4.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+                data-scrollax-parent="true">
+                <div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
+                    <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tour
+                        Details</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if (tour) { %>
+        <section class="ftco-section ftco-degree-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-12 ftco-animate">
+                            <div class="single-slider owl-carousel">
+                                <% tour.images.forEach((image)=> { %>
+                                    <div class="item">
+                                        <div class="hotel-img" style="background-image: url('/img/tour/<%= image %>');">
+                                        </div>
+                                    </div>
+                                    <% }) %>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-12 left">
+
+                                <h2>
+                                    <%= tour.name %>
+                                </h2>
+
+                                <p class="rate mb-5">
+                                    <span class="star">
+                                        <% for (let i=1; i <=5; i++) { %>
+                                            <% if (i <=tour.ratingsAverage) { %>
+                                                <i class="fa-solid fa-star"></i>
+                                                <% } else { %>
+                                                    <i class="fa-regular fa-star"></i>
+                                                    <% } %>
+                                                        <% } %>
+                                                            <%= tour.ratingsQuantity %> Rating
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-md-6 col-12 right">
+                                <div class="group-price">
+                                    <div class="sale-price">
+                                        <p><span class="price">
+                                                <%= tour.price.toLocaleString() %>&nbsp;₫
+                                            </span>/ khách</p>
+                                    </div>
+                                </div>
+                                <div class="group-add-cart"><a href="/booking/<%=tour._id%>" title="Đặt ngay"
+                                        class="add-to-cart"><i class="fa-solid fa-cart-shopping"></i>Đặt
+                                        ngay</a><a href="#" class="add-to-group">Liên hệ tư vấn</a></div>
+                            </div>
+                        </div>
+
+                        <div class="contain-box">
+                            <div class="col-md-5 col-12 left">
+                                <div class="box-order">
+                                    <div class="time">
+                                        <p class="timeToStart">Khởi hành <b>
+                                                <% for(let i=0; i<tour.startDate.length; i++) { %>
+                                                    <%= tour.startDate[i].date %>,
+                                                        <% } %> Giờ đi: <%=tour.startDate[0].time %>
+                                            </b></p>
+                                        <p class="time">Thời gian <b>
+                                                <%= tour.duration%>
+                                            </b></p>
+                                        <p class="startLocation">Nơi khởi hành <b>
+                                                <%=tour.startLocation %>
+                                            </b></p>
+                                        <p class="quantity">Số chỗ còn nhận <b>
+                                                <%=tourQuantity%>
+                                            </b></p>
+                                    </div>
+                                </div>
+                                <div class="box-people">
+                                    <h3>Thông tin hướng dẫn viên</h3>
+                                    <div class="name">
+                                        <h5>HDV đoàn</h5>
+                                        <% tour.guides.forEach(function(guide) { %>
+                                            <h4>
+                                                <%=guide.name %>
+                                            </h4>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                                <div class="box-support"><label>Quý khách cần hỗ trợ?</label>
+                                    <div class="group-contact"><a
+                                            href="https://webcall.talking.vn/frame-click-to-call/new?code=tCEZl1-MKPuA6JU-czVAScCb0pPkHmPt"
+                                            target="_blank" class="phone"><i class="fa-solid fa-phone"></i>
+                                            <p>Gọi miễn phí <br>qua internet</p>
+                                        </a><a href="mailto:info@vietravel.com" class="mail"><i
+                                                class="icon icon--mail"></i>
+                                            <p>Gửi yêu cầu <br>hỗ trợ ngay</p>
+                                        </a></div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-12 right">
+                                <div class="group-services">
+                                    <div class="item">
+                                        <i class="fa-solid fa-calendar-days"></i><label>Thời gian</label>
+                                        <p>
+                                            <%= tour.duration %>
+                                        </p>
+                                    </div>
+                                    <div class="item">
+                                        <i class="fa-solid fa-car"></i>
+                                        <label>Phương tiện di chuyển</label>
+                                        <p>
+                                            <%= tour.vehicle %>
+                                        </p>
+                                    </div>
+                                    <div class="item"><i class="fa-solid fa-map-location-dot"></i><label>Điểm tham
+                                            quan</label>
+                                        <p>
+                                            <%= tour.sightseeing %>
+                                        </p>
+                                    </div>
+                                    <div class="item"><i class="fa-solid fa-utensils"></i><label>Ẩm
+                                            thực</label>
+                                        <p>
+                                            <%= tour.food %>
+                                        </p>
+                                    </div>
+                                    <div class="item"><i class="fa-solid fa-hotel"></i><label>Khách
+                                            sạn</label>
+                                        <p>
+                                            <%=tour.hotel %>
+                                        </p>
+                                    </div>
+                                    <div class="item"><i class="fa-solid fa-clock"></i><label>Thời gian lý
+                                            tưởng</label>
+                                        <p>Quanh năm</p>
+                                    </div>
+                                    <div class="item"><i class="fa-solid fa-people-group"></i><label>Đối tượng thích
+                                            hợp</label>
+                                        <p>
+                                            <%=tour.participant %>
+                                        </p>
+                                    </div>
+                                    <div class="item"><i class="fa-solid fa-tags"></i><label>Ưu
+                                            đãi</label>
+                                        <p>Đã bao gồm trong giá tour</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
+                            <!-- <div class="row"> -->
+                            <div class="col-md-12 col-12 right timeline-section">
+                                <ul class="content">
+                                    <% tour.schedule.forEach(function(s) { %>
+                                        <li>
+                                            <div class="item">
+                                                <button class="collapsible">
+                                                    <p>
+                                                        <%= s.day %>
+                                                    </p>
+
+                                                </button>
+
+                                                <div class="inner inactive">
+                                                    <div class="paragraph">
+                                                        <title></title>
+                                                        <div style="text-align:justify">
+                                                            <div
+                                                                style="font-size: 18px; line-height: 36px; padding: 10px 20px;">
+                                                                <%- s.description.replace(/\n/g, '<br>' ) %>
+                                                            </div>
+
+                                                            <div>&nbsp;</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </li>
+
+                                        <% }) %>
+                                </ul>
+
+                            </div>
+                            <div class="contain-box-review">
+                                <div class="col-md-6 left hotel-single ftco-animate mb-5 mt-4">
+                                    <h4 class="mb-4">Review &amp; Ratings</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <form method="post" class="star-rating">
+                                                <% for(let i=5; i>= 1; i--) { %>
+                                                    <div class="form-check">
+
+                                                        <label class="form-check-label" for="exampleCheck<%= i %>">
+                                                            <p class="rate">
+                                                                <span>
+                                                                    <% for(let j=1; j <=i; j++) { %>
+                                                                        <i class="fa-solid fa-star"></i>
+                                                                        <% } %>
+                                                                            <% if(i < 5) { %>
+                                                                                <% for(let star=i; star < 5; star++) {
+                                                                                    %>
+                                                                                    <i class="icon-star-o"></i>
+                                                                                    <% } %>
+                                                                                        <% } %>
+                                                                                            <% let s=0; %>
+                                                                                                <%
+                                                                                                    tour.reviews.forEach((r)=>
+                                                                                                    { %>
+                                                                                                    <% if(r.rating===i)
+                                                                                                        { %>
+                                                                                                        <% s++; %>
+                                                                                                            <% } %>
+                                                                                                                <% });
+                                                                                                                    %>
+                                                                                                                    <%= s
+                                                                                                                        %>
+                                                                                                                        Ratings
+                                                                </span>
+                                                            </p>
+                                                        </label>
+                                                    </div>
+                                                    <% } %>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% if(user && booked && reviewed) { %>
+                                    <div class="col-md-6 right hotel-single ftco-animate mb-5 mt-4 thanks">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="thank__user">
+                                                    <h4 class="mb-4">Cảm ơn quý Khánh đã dành thời gian để lại đánh
+                                                        giá!😍
+                                                    </h4>
+                                                    <div class="thank__user--item">
+                                                        <span>Hẹn gặp lại quý khách, mong được hỗ trợ, phục vụ quý
+                                                            khách
+                                                            trong
+                                                            đợt kế tiếp🥰</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }else if(user && booked) { %>
+                                        <div class="col-md-6 right hotel-single ftco-animate mb-5 mt-4 user-review">
+                                            <h4 class="mb-4">Review &amp; Ratings</h4>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p><label for="review-user">Để lại đánh giá của bạn ngay.</label>
+                                                    </p>
+                                                    <form class="star-rating" data-user="<%=user._id%>"
+                                                        data-tour="<%=tour._id%>">
+                                                        <div class="form-check">
+                                                            <textarea type="text" class="form-review"
+                                                                id="exampleCheck1"></textarea>
+                                                        </div>
+                                                        <label class="form-check-stars" for="checkStars">
+                                                            <p class="starts-rating">
+                                                                <span class="rating__star fa fa-star checked"></span>
+                                                                <span class="rating__star fa fa-star checked"></span>
+                                                                <span class="rating__star fa fa-star checked"></span>
+                                                                <span class="rating__star fa fa-star checked"></span>
+                                                                <span class="rating__star fa fa-star"></span>
+                                                            </p>
+                                                        </label>
+                                                        <button class="user-review__submit">Submit</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } else { %>
+                                            <div
+                                                class="col-md-6 right hotel-single ftco-animate mb-5 mt-4 user--review">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="user-booking">
+                                                            <h4 class="mb-4">Đặt Tour ngay nào😍</h4>
+                                                            <p><span class="price">
+                                                                    <%=tour.price.toLocaleString()%>
+                                                                </span>đ/Khách</p>
+                                                            <div class="group-add-cart user-booking__submit">
+                                                                <a title="Đặt ngay" href="#" class="add-to-cart"><i
+                                                                        class="fa-solid fa-cart-shopping"></i>Đặt
+                                                                    ngay</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+
+                                                <!-- <div class="row"> -->
+                                                <section class="ftco-section testimony-section bg-light">
+                                                    <div class="container">
+                                                        <div class="row justify-content-start">
+                                                            <div class="col-md-5 heading-section ftco-animate">
+                                                                <span class="subheading">Best Directory Website</span>
+                                                                <h2 class="mb-4 pb-3"><strong>Why</strong> Choose Us?
+                                                                </h2>
+                                                                <p>Far far away, behind the word mountains, far from the
+                                                                    countries
+                                                                    Vokalia and Consonantia, there live
+                                                                    the blind texts. Separated they live in
+                                                                    Bookmarksgrove right
+                                                                    at
+                                                                    the
+                                                                    coast of the Semantics, a large
+                                                                    language ocean.</p>
+                                                                <p>Even the all-powerful Pointing has no control about
+                                                                    the blind
+                                                                    texts
+                                                                    it is an almost unorthographic
+                                                                    life.</p>
+
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-6 heading-section ftco-animate">
+                                                                <span class="subheading">Testimony</span>
+                                                                <h2 class="mb-4 pb-3"><strong>Our</strong> Guests Says
+                                                                </h2>
+                                                                <div class="row ftco-animate">
+                                                                    <div class="col-md-12 btn_review">
+                                                                        <button id="showReviewsBtn"
+                                                                            class="btn_review-item">Xem
+                                                                            Thêm</button>
+                                                                        <div class="carousel-testimony owl-carousel">
+                                                                            <% for(let j=1;j<=3;j++) { %>
+                                                                                <% tour.reviews.forEach((r)=> { %>
+                                                                                    <% if(r.rating>= 4) { %>
+                                                                                        <div class="item">
+                                                                                            <div
+                                                                                                class="testimony-wrap d-flex">
+                                                                                                <div class="user-img mb-5"
+                                                                                                    style="background-image: url(/img/users/<%=r.user.photo%>)">
+                                                                                                    <span
+                                                                                                        class="quote d-flex align-items-center justify-content-center">
+                                                                                                        <i
+                                                                                                            class="icon-quote-left"></i>
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="text ml-md-4">
+                                                                                                    <p class="mb-5">
+                                                                                                        <%=r.review%>
+                                                                                                    </p>
+                                                                                                    <p class="name">
+                                                                                                        <%=r.user.name
+                                                                                                            %>
+                                                                                                    </p>
+                                                                                                    <span
+                                                                                                        class="position">Guest
+                                                                                                        booked.</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <% } %>
+                                                                                            <% }) %>
+                                                                                                <% } %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="overlay" class="overlay">
+                                                        <div class="review-container">
+                                                            <span class="close-btn" id="closeBtn">&times;</span>
+                                                            <h2>Reviews</h2>
+                                                            <div class="review-list">
+                                                                <% tour.reviews.forEach((r)=> { %>
+                                                                    <div class="review-item">
+                                                                        <img src="/img/users/<%=r.user.photo%>"
+                                                                            alt="User 1">
+                                                                        <div class="review-content">
+                                                                            <h3>
+                                                                                <%= r.user.name %>
+                                                                            </h3>
+                                                                            <div class="stars">
+                                                                                <% for(let i=1;i<=5;i++) { %>
+                                                                                    <% if(r.rating>= i) { %>
+                                                                                        <i class="fa-solid fa-star"></i>
+                                                                                        <% }else{ %>
+                                                                                            <i
+                                                                                                class="fa-solid fa-star-o"></i>
+                                                                                            <% } %>
+                                                                                                <% } %>
+                                                                            </div>
+                                                                            <p>
+                                                                                <%=r.review %> >
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% }) %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 hotel-single ftco-animate mb-5 mt-5">
+                            <h4 class="mb-4">Có thể bạn sẽ thích</h4>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="destination">
+                                        <a href="hotel-single.html" class="img img-2"
+                                            style="background-image: url();"></a>
+                                        <div class="text p-3">
+                                            <div class="d-flex">
+                                                <div class="one">
+                                                    <h3><a href="hotel-single.html">Hotel, Italy</a></h3>
+                                                    <p class="rate">
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star-o"></i>
+                                                        <span>8 Rating</span>
+                                                    </p>
+                                                </div>
+                                                <div class="two">
+                                                    <span class="price per-price">$40<br><small>/night</small></span>
+                                                </div>
+                                            </div>
+                                            <p>Far far away, behind the word mountains, far from the countries</p>
+                                            <hr>
+                                            <p class="bottom-area d-flex">
+                                                <span><i class="icon-map-o"></i> Miami, Fl</span>
+                                                <span class="ml-auto"><a href="#">Book Now</a></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="destination">
+                                        <a href="hotel-single.html" class="img img-2"
+                                            style="background-image: url();"></a>
+                                        <div class="text p-3">
+                                            <div class="d-flex">
+                                                <div class="one">
+                                                    <h3><a href="hotel-single.html">Hotel, Italy</a></h3>
+                                                    <p class="rate">
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star-o"></i>
+                                                        <span>8 Rating</span>
+                                                    </p>
+                                                </div>
+                                                <div class="two">
+                                                    <span class="price per-price">$40<br><small>/night</small></span>
+                                                </div>
+                                            </div>
+                                            <p>Far far away, behind the word mountains, far from the countries</p>
+                                            <hr>
+                                            <p class="bottom-area d-flex">
+                                                <span><i class="icon-map-o"></i> Miami, Fl</span>
+                                                <span class="ml-auto"><a href="#">Book Now</a></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="destination">
+                                        <a href="hotel-single.html" class="img img-2"
+                                            style="background-image: url();"></a>
+                                        <div class="text p-3">
+                                            <div class="d-flex">
+                                                <div class="one">
+                                                    <h3><a href="hotel-single.html">Hotel, Italy</a></h3>
+                                                    <p class="rate">
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star"></i>
+                                                        <i class="icon-star-o"></i>
+                                                        <span>8 Rating</span>
+                                                    </p>
+                                                </div>
+                                                <div class="two">
+                                                    <span class="price per-price">$40<br><small>/night</small></span>
+                                                </div>
+                                            </div>
+                                            <p>Far far away, behind the word mountains, far from the countries</p>
+                                            <hr>
+                                            <p class="bottom-area d-flex">
+                                                <span><i class="icon-map-o"></i> Miami, Fl</span>
+                                                <span class="ml-auto"><a href="#">Book Now</a></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- .col-md-8 -->
+                </div>
+            </div>
+        </section> <!-- .section -->
+        <% } %>
+
+            <footer class="ftco-footer ftco-bg-dark ftco-section">
+                <div class="container">
+                    <div class="row mb-5">
+                        <div class="col-md">
+                            <div class="ftco-footer-widget mb-4">
+                                <h2 class="ftco-heading-2">dirEngine</h2>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and
+                                    Consonantia,
+                                    there live the blind texts.</p>
+                                <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                                    <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                                    <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                                    <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="ftco-footer-widget mb-4 ml-md-5">
+                                <h2 class="ftco-heading-2">Information</h2>
+                                <ul class="list-unstyled">
+                                    <li><a href="#" class="py-2 d-block">About</a></li>
+                                    <li><a href="#" class="py-2 d-block">Service</a></li>
+                                    <li><a href="#" class="py-2 d-block">Terms and Conditions</a></li>
+                                    <li><a href="#" class="py-2 d-block">Become a partner</a></li>
+                                    <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
+                                    <li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="ftco-footer-widget mb-4">
+                                <h2 class="ftco-heading-2">Customer Support</h2>
+                                <ul class="list-unstyled">
+                                    <li><a href="#" class="py-2 d-block">FAQ</a></li>
+                                    <li><a href="#" class="py-2 d-block">Payment Option</a></li>
+                                    <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
+                                    <li><a href="#" class="py-2 d-block">How it works</a></li>
+                                    <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="ftco-footer-widget mb-4">
+                                <h2 class="ftco-heading-2">Have a Questions?</h2>
+                                <div class="block-23 mb-3">
+                                    <ul>
+                                        <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St.
+                                                Mountain
+                                                View, San Francisco, California, USA</span></li>
+                                        <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392
+                                                    3929
+                                                    210</span></a></li>
+                                        <li><a href="#"><span class="icon icon-envelope"></span><span
+                                                    class="text">info@yourdomain.com</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+
+                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                template
+                                is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+
+            <!-- loader -->
+            <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+                    <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+                    <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                        stroke="#F96D00" />
+                </svg></div>
+            <%- include('footer'); -%>

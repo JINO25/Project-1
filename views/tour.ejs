@@ -1,0 +1,234 @@
+<%- include('header'); -%>
+	<!-- END nav -->
+
+	<div class="hero-wrap js-fullheight" style="background-image: url('images/bg_3.jpg');">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+				data-scrollax-parent="true">
+				<div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
+					<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span
+							class="mr-2"><a href="index.html">Home</a></span> <span>Tour</span></p>
+					<h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
+						Destination
+					</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<section class="ftco-section ftco-degree-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 sidebar ftco-animate">
+					<div class="sidebar-wrap bg-light ftco-animate">
+						<h3 class="heading mb-4">Find City</h3>
+						<form id="searchForm">
+							<div class="fields">
+								<div class="form-group">
+									<input type="text" id="destination" class="form-control"
+										placeholder="Destination, City">
+								</div>
+								<div class="form-group">
+									<input type="date" id="date" placeholder="Date from">
+								</div>
+								<div class="form-group">
+									<div class="range-slider">
+										<span>
+											<input id="minPrice" type="number" value="800000" min="500000"
+												max="5000000" /> -
+											<input id="maxPrice" type="number" value="4000000" min="500000"
+												max="10000000" />
+										</span>
+										<input id="minRange" value="800000" min="500000" max="9000000" step="100000"
+											type="range" />
+										<input id="maxRange" value="4000000" min="500000" max="10000000" step="100000"
+											type="range" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<a href="/search" class="btn btn-primary py-3 px-5">SEARCH</a>
+							</div>
+						</form>
+
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="row">
+						<% tours.forEach(function(tour){ %>
+							<div class="col-md-4 ftco-animate">
+								<div class="destination">
+									<a href='/tour/<%= tour.slug %>'
+										class="img img-2 d-flex justify-content-center align-items-center"
+										style="background-image: url(img/tour/<%=tour.imageCover%>);">
+										<div class="icon d-flex justify-content-center align-items-center">
+											<span class="icon-search2"></span>
+										</div>
+									</a>
+									<div class="text p-3">
+										<div class="d-flex">
+											<div class="one">
+												<h3><a href="#">
+														<%= tour.name %>
+													</a></h3>
+												<p class="rate">
+													<i class="icon-star"></i>
+													<i class="icon-star"></i>
+													<i class="icon-star"></i>
+													<i class="icon-star"></i>
+													<i class="icon-star-o"></i>
+													<span>
+														<%= tour.ratingsQuantity %> Rating
+													</span>
+												</p>
+											</div>
+										</div>
+										<!-- <p>
+											<%= tour.description %>>
+										</p> -->
+										<p class="startDate">
+											<span>
+												<i class="fa-regular fa-calendar-days"></i>
+												Ngày khởi hành:
+												<% for(let i=0; i<tour.startDate.length; i++) { %>
+													<%= tour.startDate[i].date %>
+														<% } %>
+											</span>
+										</p>
+										<p class="days">
+											<span>
+												<i class="fa-regular fa-clock"></i>
+												<%= tour.duration %>
+											</span>
+										</p>
+										<p class="seats">
+											<span>
+												<i class="fa-regular fa-user"></i>
+												Số chỗ còn nhận: <%= tour.quantity%>
+											</span>
+										</p>
+										<div class="two">
+											<span class="price">
+												<%= tour.price.toLocaleString() %>đ/Khách
+											</span>
+										</div>
+										<hr>
+										<p class="bottom-area">
+											<span><i class="icon-map-o"></i>Nơi khởi hành: <%= tour.startLocation %>
+											</span>
+											<span class="ml-auto" style="display: flex; justify-content: flex-end;"><a
+													href="tour/<%=tour.slug%>">Đặt Ngay</a></span>
+										</p>
+									</div>
+								</div>
+							</div>
+							<% }) %>
+
+
+					</div>
+					<div class="row mt-5">
+						<div class="col text-center">
+							<div class="block-27">
+								<ul>
+									<li><a href="#">&lt;</a></li>
+									<li class="active"><span>1</span></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+									<li><a href="#">&gt;</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div> <!-- .col-md-8 -->
+			</div>
+		</div>
+	</section> <!-- .section -->
+
+	<footer class="ftco-footer ftco-bg-dark ftco-section">
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">dirEngine</h2>
+						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+							there live the blind texts.</p>
+						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+							<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4 ml-md-5">
+						<h2 class="ftco-heading-2">Information</h2>
+						<ul class="list-unstyled">
+							<li><a href="#" class="py-2 d-block">About</a></li>
+							<li><a href="#" class="py-2 d-block">Service</a></li>
+							<li><a href="#" class="py-2 d-block">Terms and Conditions</a></li>
+							<li><a href="#" class="py-2 d-block">Become a partner</a></li>
+							<li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
+							<li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Customer Support</h2>
+						<ul class="list-unstyled">
+							<li><a href="#" class="py-2 d-block">FAQ</a></li>
+							<li><a href="#" class="py-2 d-block">Payment Option</a></li>
+							<li><a href="#" class="py-2 d-block">Booking Tips</a></li>
+							<li><a href="#" class="py-2 d-block">How it works</a></li>
+							<li><a href="#" class="py-2 d-block">Contact Us</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Have a Questions?</h2>
+						<div class="block-23 mb-3">
+							<ul>
+								<li><span class="icon icon-map-marker"></span><span class="text">203 Fake St.
+										Mountain
+										View, San Francisco, California, USA</span></li>
+								<li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929
+											210</span></a></li>
+								<li><a href="#"><span class="icon icon-envelope"></span><span
+											class="text">info@yourdomain.com</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
+
+					<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright &copy;
+						<script>document.write(new Date().getFullYear());</script> All rights reserved | This
+						template
+						is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+							target="_blank">Colorlib</a>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+				stroke="#F96D00" />
+		</svg></div>
+
+
+	<%- include('footer'); -%>

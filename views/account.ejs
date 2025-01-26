@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="./css/style.css"> -->
+    <link rel="stylesheet" href="./css/style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar__item">
+        <div class="container">
+            <a class="navbar-brand" href="/">dirEngine.</a>
+            <div class="navbar__user">
+                <!-- <a class="logOut" href="#">Log Out</a> -->
+                <img src="/img/users/<%=user.photo %>" alt="person">
+            </div>
+        </div>
+    </nav>
+    <div class="main">
+        <div class="user-view">
+            <nav class="user-view__menu">
+                <ul class="side-nav">
+                    <li class="setting">
+                        <i class="fa-solid fa-gear"></i>
+                        <a href="#">Setting</a>
+                    </li>
+                    <!-- <li>
+                        <i class="fa-solid fa-star"></i><a href="#">My Review</a>
+                    </li> -->
+                    <li class="booking">
+                        <i class="fa-solid fa-suitcase"></i><a href="#">My Booking</a>
+                    </li>
+                    <li class="billing">
+                        <i class="fa-solid fa-receipt"></i><a href="#">Billing</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="user-view__content setting">
+                <div class="user-view__form-container">
+                    <h2 class="heading-secondary ma-bt-md">Your account settings</h2>
+                    <form class="form-user form-user-data">
+                        <div class="form__group"><label class="form__label" for="name">Tên</label><input
+                                class="form__input" id="name" type="text" value=<%=user.name %> required=""
+                            name="name"
+                            fdprocessedid="4vdoe7"></div>
+                        <div class="form__group ma-bt-md"><label class="form__label" for="email">Email
+                            </label><input class="form__input" id="email" type="email" value=<%=user.email %>
+                            required="" name="email" fdprocessedid="gr5el"></div>
+                        <div class="form__group ma-bt-md"><label class="form__label" for="phone">Điện thoại
+                            </label><input class="form__input" id="phone" type="number" value='0<%=user.phone %>'
+                                required="" name="phone"></div>
+                        <div class="form__group form__photo-upload">
+                            <img class="form__user-photo" src="/img/users/<%=user.photo %>" alt="User photo"><input
+                                class="form__upload" type="file" accept="image/*" id="photo" name="photo"><label
+                                for="photo">Choose
+                                new photo</label>
+                        </div>
+                        <div class="form__group right"><button class="btn btn--small btn--green"
+                                fdprocessedid="peb61o">Save
+                                settings</button></div>
+                    </form>
+                </div>
+                <div class="line">&nbsp;</div>
+                <div class="user-view__form-container">
+                    <h2 class="heading-secondary ma-bt-md">Password change</h2>
+                    <form class="form-user form-user-password">
+                        <div class="form__group"><label class="form__label" for="password-current">Current
+                                password</label><input class="form__input" id="password-current" type="password"
+                                placeholder="••••••••" required="" minlength="8" fdprocessedid="ai82jo"></div>
+                        <div class="form__group"><label class="form__label" for="password">New password</label><input
+                                class="form__input" id="password" type="password" placeholder="••••••••" required=""
+                                minlength="8" fdprocessedid="zudqt"></div>
+                        <div class="form__group ma-bt-lg"><label class="form__label" for="password-confirm">Confirm
+                                password</label><input class="form__input" id="password-confirm" type="password"
+                                placeholder="••••••••" required="" minlength="8" fdprocessedid="8hhx6n"></div>
+                        <div class="form__group right"><button class="btn btn--small btn--green btn--save-password"
+                                fdprocessedid="uqve5g">Save password</button></div>
+                    </form>
+                </div>
+            </div>
+            <!-- --------------------- -->
+            <div class="user-view__content booking inactive">
+                <div class="user-view__form-container">
+                    <h2 class="heading-secondary ma-bt-md">My Booking</h2>
+                    <div class="user-view__booking">
+                        <table>
+                            <tr>
+                                <th>Tour</th>
+                                <th>Date</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                            <% if(booked){ %>
+                                <% bookings.forEach((el)=>{ %>
+                                    <tr>
+                                        <td>
+                                            <%= el.tour.name%>
+                                        </td>
+                                        <td>
+                                            <%= el.createdAt.toLocaleDateString() %>
+                                        </td>
+                                        <td>
+                                            <%= el.price.toLocaleString()%>đ
+                                        </td>
+                                        <% const today=new Date(); %>
+                                            <% if(today>= el.createdAt){ %>
+                                                <td>
+                                                    <a class="btn btn-review btn-primary"
+                                                        href="tour/<%=el.tour._id%>">Review
+                                                        tour</a>
+                                                </td>
+                                                <% }else{ %>
+                                                    <td>
+                                                        <button class="btn btn-cancelTour btn-danger"
+                                                            data-id="<%=el.id%>">Huỷ
+                                                            tour</button>
+                                                    </td>
+                                                    <% } %>
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                        </table>
+                    </div>
+                </div>
+                <div class="line">&nbsp;</div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+    <script type="module" src="/js/js2/index.js"></script>
+    <script type="module" src="/js/js2/updateAccount.js"></script>
+    <script type="module" src="/js/js2/cancelTour.js"></script>
+</body>
+
+</html>
