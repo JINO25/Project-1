@@ -88,7 +88,6 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 
-
 app.use('/api/v1/tour', tourRouter);
 app.use('/api/v1/user', userRouter)
 app.use('/api/v1/review', reviewRoute)

@@ -80,7 +80,16 @@
                                                 <%=tour.startLocation %>
                                             </b></p>
                                         <p class="quantity">Số chỗ còn nhận <b>
-                                                <%=tourQuantity%>
+                                                <% for(let i=0; i<tour.startDate.length; i++) { %>
+                                                    <% if(i<tour.startDate.length -1) { %>
+                                                        <%= tour.startDate[i].quantity %> (<%= tour.startDate[i].date %>
+                                                                ),
+                                                                <% }else{ %>
+                                                                    <%= tour.startDate[i].quantity %> (<%=
+                                                                            tour.startDate[i].date %>
+                                                                            )
+                                                                            <%} %>
+                                                                                <% } %>
                                             </b></p>
                                     </div>
                                 </div>
@@ -96,12 +105,10 @@
                                     </div>
                                 </div>
                                 <div class="box-support"><label>Quý khách cần hỗ trợ?</label>
-                                    <div class="group-contact"><a
-                                            href="https://webcall.talking.vn/frame-click-to-call/new?code=tCEZl1-MKPuA6JU-czVAScCb0pPkHmPt"
-                                            target="_blank" class="phone"><i class="fa-solid fa-phone"></i>
+                                    <div class="group-contact"><a href="#" class="phone"><i
+                                                class="fa-solid fa-phone"></i>
                                             <p>Gọi miễn phí <br>qua internet</p>
-                                        </a><a href="mailto:info@vietravel.com" class="mail"><i
-                                                class="icon icon--mail"></i>
+                                        </a><a href="#" class="mail"><i class="icon icon--mail"></i>
                                             <p>Gửi yêu cầu <br>hỗ trợ ngay</p>
                                         </a></div>
                                 </div>
@@ -291,7 +298,8 @@
                                                                     <%=tour.price.toLocaleString()%>
                                                                 </span>đ/Khách</p>
                                                             <div class="group-add-cart user-booking__submit">
-                                                                <a title="Đặt ngay" href="#" class="add-to-cart"><i
+                                                                <a title="Đặt ngay" href="/booking/<%=tour._id%>"
+                                                                    class="add-to-cart"><i
                                                                         class="fa-solid fa-cart-shopping"></i>Đặt
                                                                     ngay</a>
                                                             </div>

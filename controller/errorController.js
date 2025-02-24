@@ -9,19 +9,19 @@ const handleJWTExpiredError = err => new CreateError('Your token has expired! Pl
 
 const handleCastErrorDB = err => {
     const message = `Invalid ${err.path}: ${err.value}`;
-    return new AppError(message, 400);
+    return new CreateError(message, 400);
 }
 
 const handleDuplicateFieldsDB = err => {
     const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
     const message = `Duplicate field value: ${value}. Please use another value!`;
-    return new AppError(message, 500);
+    return new CreateError(message, 500);
 }
 
 const handleValidationErrorDB = err => {
     const errors = Object.values(err.errors).map(el => el.message);
     const message = `Invalid input data. ${errors.join(". ")}`;
-    return new AppError(message, 400);
+    return new CreateError(message, 400);
 }
 
 const sendErrDev = (err, req, res) => {
@@ -45,7 +45,7 @@ const sendErrDev = (err, req, res) => {
 };
 
 const sendErrProd = (err, req, res) => {
-    if (req.originalUrl.startsWith('/api')) {
+    if (req.originalUrl.startsWith('/')) {
         //Operational, trusted err
         if (err.isOperational) {
             return res.status(err.statusCode).json({
@@ -91,7 +91,7 @@ module.exports = ((err, req, res, next) => {
     } else if (process.env.NODE_ENV === 'production') {
         let error = Object.assign(err);
 
-        if (error.name === 'CastError') error = handleCastErrorDB(error); // it will then  return a new AppError
+        if (error.name === 'CastError') error = handleCastErrorDB(error); // it will then  return a new CreateError
         if (error.code === 11000) error = handleDuplicateFieldsDB(error);
         if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
         if (error.name === 'JsonWebTokenError') error = handleJWTError(error);

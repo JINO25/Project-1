@@ -1,14 +1,17 @@
 <%- include('header'); -%>
 
-    <div class="main">
-        <div class="error" style="
-    text-align: center;">
+    <div class="main" style="
+    display: flex;
+    justify-content: center;
+">
+        <div class="error" style="text-align: center;">
             <div class="error__title">
-                <h2 class="heading-secondary heading-secondary--error">Uh oh! Something went wrong!</h2>
                 <h2 class="error__emoji">😢 🤯</h2>
             </div>
             <div class="error__msg">
-                <%=msg%>
+                <h2>
+                    <%=msg%>
+                </h2>
             </div>
         </div>
     </div>

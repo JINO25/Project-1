@@ -6,7 +6,6 @@
                 <i class="fa-solid fa-circle-xmark" style="color: red; font-size: 18px;"></i>
                 <p style="margin: 0; padding:10px; font-size:16px;">Rất tiếc Tour hiện tại số chỗ còn nhận chỉ còn:
                     <span class="number_quantity">
-                        <%=tourQuantity%>
                     </span>
                     chỗ
                 </p>
@@ -135,7 +134,8 @@
                             <h4></h4>
                             <div class="date-selector">
                                 <% for(let i=0; i<tour.startDate.length; i++) { %>
-                                    <button class="date-option" data-date="<%= tour.startDate[i].date %>">
+                                    <button class="date-option" data-date="<%= tour.startDate[i].date %>"
+                                        data-quantity="<%=tour.startDate[i].quantity %>">
                                         <%= tour.startDate[i].date %>
                                     </button>
                                     <% } %>

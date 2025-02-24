@@ -22,7 +22,8 @@ class APIFeature {
 
     sort() {
         if (this.queryParam.sort) {
-            const sortBy = this.queryParam.sort.split(',').join(' ');
+            // const sortBy = this.queryParam.sort.split(',').join(' ');
+            const sortBy = Array.isArray(this.queryParam.sort) ? this.queryParam.sort.join(' ') : this.queryParam.sort.split(',').join(' ');
             this.query = this.query.sort(sortBy);
         } else {
             this.query = this.query.sort('-createdAt _id');

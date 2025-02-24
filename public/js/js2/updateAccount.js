@@ -30,7 +30,7 @@ export const updateSettings = async (data, type, apiUrl) => {
             return res.data.data.user.photo;
         }
     } catch (error) {
-        showAlert('err', error.response.data.message);
+        showAlert('error', error.response.data.message);
 
     }
 }

@@ -66,7 +66,8 @@ const tourSchema = new mongoose.Schema({
     },
     startDate: [{
         date: String,
-        time: String
+        time: String,
+        quantity: Number
     }],
     vehicle: {
         type: String

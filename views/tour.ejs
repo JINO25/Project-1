@@ -7,8 +7,7 @@
 			<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
 				data-scrollax-parent="true">
 				<div class="col-md-9 ftco-animate text-center" data-scrollax=" properties: { translateY: '70%' }">
-					<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span
-							class="mr-2"><a href="index.html">Home</a></span> <span>Tour</span></p>
+					<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
 					<h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
 						Destination
 					</h1>
@@ -55,7 +54,17 @@
 
 					</div>
 				</div>
+
+
 				<div class="col-lg-9">
+					<div class="sort-container">
+						<label for="sort">Sắp xếp giá:</label>
+						<select id="sort" class="form-control">
+							<option value="default">Mặc định</option>
+							<option value="price">Giá tăng dần</option>
+							<option value="-price">Giá giảm dần</option>
+						</select>
+					</div>
 					<div class="row">
 						<% tours.forEach(function(tour){ %>
 							<div class="col-md-4 ftco-animate">
@@ -74,14 +83,16 @@
 														<%= tour.name %>
 													</a></h3>
 												<p class="rate">
-													<i class="icon-star"></i>
-													<i class="icon-star"></i>
-													<i class="icon-star"></i>
-													<i class="icon-star"></i>
-													<i class="icon-star-o"></i>
-													<span>
-														<%= tour.ratingsQuantity %> Rating
-													</span>
+													<% for (let i=1; i <=5; i++) { %>
+														<% if (i <=tour.ratingsAverage) { %>
+															<i class="icon-star"></i>
+															<% } else { %>
+																<i class="icon-star-o"></i>
+																<% } %>
+																	<% } %>
+																		<span>
+																			<%= tour.ratingsQuantity %> Rating
+																		</span>
 												</p>
 											</div>
 										</div>
@@ -106,7 +117,17 @@
 										<p class="seats">
 											<span>
 												<i class="fa-regular fa-user"></i>
-												Số chỗ còn nhận: <%= tour.quantity%>
+												Số chỗ còn nhận:
+												<% for(let i=0; i<tour.startDate.length; i++) { %>
+													<% if(i<tour.startDate.length -1) { %>
+														<%= tour.startDate[i].quantity %> (<%= tour.startDate[i].date %>
+																),
+																<% }else{ %>
+																	<%= tour.startDate[i].quantity %> (<%=
+																			tour.startDate[i].date %>
+																			)
+																			<%} %>
+																				<% } %>
 											</span>
 										</p>
 										<div class="two">
@@ -119,7 +140,7 @@
 											<span><i class="icon-map-o"></i>Nơi khởi hành: <%= tour.startLocation %>
 											</span>
 											<span class="ml-auto" style="display: flex; justify-content: flex-end;"><a
-													href="tour/<%=tour.slug%>">Đặt Ngay</a></span>
+													href="/tour/<%= tour.slug %>">Đặt Ngay</a></span>
 										</p>
 									</div>
 								</div>

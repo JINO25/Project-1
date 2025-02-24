@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 const validator = require("validator");
-const { default: mongoose } = require("mongoose");
+const mongoose = require('mongoose');
+const CreateError = require('../utils/CreateError');
 
 const bookingSchema = new mongoose.Schema({
     tour: {
@@ -75,6 +76,50 @@ bookingSchema.pre(/^find/, function (next) {
     });
     next();
 });
+
+bookingSchema.methods.updateTourQuantity = async function () {
+    const tour = await mongoose.model('Tour').findById(this.tour);
+
+
+    if (!tour) {
+        return new CreateError('Tour not found', 404);
+    }
+
+    const selectedDate = tour.startDate.find(d => d.date === this.date);
+
+    if (!selectedDate) {
+        return new CreateError('Selected date is not available for this tour', 404);
+    }
+
+    if (selectedDate.quantity < this.quantity) {
+        return new CreateError('Quantity is not enough for this tour', 400);
+    }
+
+    selectedDate.quantity -= this.quantity;
+    await tour.save();
+}
+
+bookingSchema.post('save', async function () {
+    await this.updateTourQuantity();
+})
+
+bookingSchema.methods.cancelBookingTourQuantity = async function () {
+    const tour = await mongoose.model('Tour').findById(this.tour);
+
+    if (!tour) {
+        return new CreateError('Tour not found', 404);
+    }
+
+    const selectedDate = tour.startDate.find(d => d.date === this.date);
+
+    selectedDate.quantity += this.quantity;
+    await tour.save();
+}
+
+bookingSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+    await this.cancelBookingTourQuantity();
+    next();
+})
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

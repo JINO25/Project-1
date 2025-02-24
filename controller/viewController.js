@@ -7,22 +7,18 @@ const Booking = require('../models/bookingModel');
 const catchAsync = require('../middlewares/catchAsync');
 const CreateError = require('../utils/CreateError');
 const mongoose = require('mongoose')
+const APIFeature = require('../utils/apiFeatures');
 
 exports.getOverview = catchAsync(async (req, res) => {
-    // 1) Get tour data from collection
-    const tours = await Tour.find();
-    // let quantities = await Booking.find({ tours: tours._id }).select('quantity').exec();
-    // let quantity = 0;
-    // quantities.map((el) => {
-    //     quantity += el.quantity;
-    // });
-    // 2) Build template
-    // 3) Render that template using tour data from 1)
+
+    const features = new APIFeature(Tour.find(), req.query).sort();
+
+    const tours = await features.query;
+
     res.status(200).render('tour', {
         user: res.locals.user,
         title: 'All Tours',
         tours,
-        // quantity
     });
 });
 
@@ -69,14 +65,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
         // console.log(review, reviewed, booked, res.locals.user);
     }
 
-    let quantities = await Booking.find({ tour: tour._id }).select('quantity').exec();
-    let quantity = 0;
-    quantities.map((el) => {
-        quantity += el.quantity;
-    });
-
-    let tourQuantity = tour.quantity - quantity;
-
     res.status(200).render('tour_details', {
         user: res.locals.user,
         title: "Tour Details",
@@ -84,25 +72,36 @@ exports.getTour = catchAsync(async (req, res, next) => {
         tour,
         booked,
         reviewed,
-        tourQuantity
     });
 });
 
 exports.getSearching = catchAsync(async (req, res, next) => {
     const { destination, dateFrom, minPrice, maxPrice } = req.query;
 
-    const tours = await Tour.find({
+    const features = new APIFeature(Tour.find({
         $or: [
             { name: { $regex: destination, $options: 'i' } },
             { startDate: { $elemMatch: { date: dateFrom } } },
             { price: { $gte: minPrice, $lte: maxPrice } }
         ],
 
-    });
+    }), req.query).sort();
+
+    const tours = await features.query;
+
+    // const tours = await Tour.find({
+    //     $or: [
+    //         { name: { $regex: destination, $options: 'i' } },
+    //         { startDate: { $elemMatch: { date: dateFrom } } },
+    //         { price: { $gte: minPrice, $lte: maxPrice } }
+    //     ],
+
+    // });
 
     if (tours.length == 0) {
-        return res.status(404).json({
-            message: `Hiện tại chúng tôi đang cập nhật dữ liệu quý khách tìm, mong quý khách thông cảm.`
+        return res.status(404).render('404', {
+            title: 'Tours Searching',
+            msg: `Hiện tại chúng tôi đang cập nhật dữ liệu quý khách tìm, mong quý khách thông cảm.`
         });
     }
 
@@ -160,7 +159,7 @@ exports.cancelBookingTour = (async (req, res) => {
     const check = isThreeDaysDifference(data.date);
 
     if (check > 4) {
-        await Booking.deleteOne(data);
+        await data.deleteOne();
 
         return res.status(200).json({
             status: 'success'

@@ -76,6 +76,7 @@
 
 
 .form button {
+    margin-bottom: 10px;
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
@@ -100,7 +101,7 @@
 .form .message {
     margin: 15px 0 0;
     color: #b3b3b3;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .form .message a {

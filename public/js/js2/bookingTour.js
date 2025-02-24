@@ -82,6 +82,9 @@ function totalPrice(input) {
 
 const dateButtons = document.querySelectorAll('.date-option');
 const selectedDateInput = document.getElementById('selectedDate');
+let remainingQuantity;
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const nameInput = document.querySelector('.contact__user-information .name');
     const emailInput = document.querySelector('.contact__user-information .email');
@@ -156,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Cập nhật giá trị cho input hidden
             selectedDateInput.value = this.dataset.date;
+            remainingQuantity = Number.parseInt(this.dataset.quantity);
             checkDate = true
             checkFormInputs();
         });
@@ -170,8 +174,10 @@ function checkQuantity(input) {
         total += parseInt(e.value);
     })
 
-    if (total >= remainingQuantity)
+    if (total >= remainingQuantity) {
+        document.querySelector('.number_quantity').innerHTML = remainingQuantity;
         return false;
+    }
     return true;
 }
 
@@ -183,7 +189,6 @@ const renderToast = () => {
     }, 2000);
 }
 
-const remainingQuantity = document.querySelector('.number_quantity').textContent.trim();
 // Update the quantity and price when the buttons are clicked
 document.querySelectorAll('.quantity-button').forEach(button => {
     button.addEventListener('click', async function () {

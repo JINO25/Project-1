@@ -39,6 +39,8 @@ reviewSchema.pre(/^find/, function (next) {
     next();
 })
 
+
+//calculate rating when booking a tour
 reviewSchema.statics.calAvgRating = async function (tourId) {
     const stats = await this.aggregate([
         {
@@ -68,17 +70,20 @@ reviewSchema.statics.calAvgRating = async function (tourId) {
     }
 };
 
+//run when a review is saved into db
 reviewSchema.post('save', function () {
     // constructor here is the model who created that document
     this.constructor.calAvgRating(this.tour);
 })
 
+//run when a review is updated or deleted
 reviewSchema.pre(/^findOneAnd/, async function (next) {
     this.r = await this.findOne();
-    // console.log(this.r);
+    console.log(this.r);
     next();
 })
 
+//run when a review is updated or deleted
 reviewSchema.post(/^findOneAnd/, async function (next) {
     await this.r.constructor.calAvgRating(this.r.tour);
 });

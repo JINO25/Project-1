@@ -11,6 +11,17 @@ const currentOrigin = new URL(currentUrl).origin;
 // Combine the origin and API path to get the full API URL
 const apiUrl = `${currentOrigin}`;
 
+
+document.getElementById("sort").addEventListener("change", function () {
+    const sortValue = this.value;
+    const url = new URL(window.location.href);
+
+    url.searchParams.set("sort", sortValue);
+
+    window.location.href = url.toString();
+
+});
+
 const formLogin = document.querySelector('.login-form');
 const formSignUp = document.querySelector('.register-form');
 const formForgotPwd = document.querySelector('.forgot-password-page');
