@@ -4,7 +4,15 @@ const CreateError = require('../utils/CreateError');
 const catchAsync = require('../middlewares/catchAsync');
 const multer = require('multer');
 const sharp = require('sharp');
+const cloudinary = require('cloudinary').v2;
 
+cloudinary.config({
+    cloud_name: process.env.Cloudinary_NAME,
+    api_key: process.env.Cloudinary_API,
+    api_secret: process.env.Cloudinary_SECRET
+});
+
+//storage file as buffer
 const storage = multer.memoryStorage();
 
 const filter = (req, file, cb) => {
@@ -20,19 +28,33 @@ const upload = multer({
     fileFilter: filter
 });
 
+
+const uploadPhotoCloudinary = async (fileBuffer) => {
+    try {
+        const uploadResult = await new Promise((resolve) => {
+            cloudinary.uploader.upload_stream({
+                folder: 'users'
+            }, (error, uploadResult) => {
+                if (error) {
+                    console.log("Cloudinary Upload Error:", error)
+                    return reject(error);
+                }
+                return resolve(uploadResult);
+            }).end(fileBuffer);
+        });
+        return uploadResult;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 exports.uploadUserPhoto = upload.single('photo');
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     if (!req.file) return next();
 
-    req.file.filename = `user-${req.user.id}.jpeg`;
-
-    await sharp(req.file.buffer)
-        .resize(500, 500)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(`public/img/users/${req.file.filename}`);
-
+    const photoURL = await uploadPhotoCloudinary(req.file.buffer);
+    req.file.filename = photoURL.url;
     next();
 });
 
@@ -48,7 +70,7 @@ const filterObj = (obj, ...fields) => {
 
 exports.updateMe = catchAsync(async (req, res, next) => {
 
-    const filteredBody = filterObj(req.body, 'name', 'email', 'phone');
+    const filteredBody = filterObj(req.body, 'name', 'phone');
     if (req.file) filteredBody.photo = req.file.filename;
 
     const updateUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {

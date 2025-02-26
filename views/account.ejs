@@ -16,11 +16,7 @@
             <a class="navbar-brand" href="/">dirEngine.</a>
             <div class="navbar__user">
                 <!-- <a class="logOut" href="#">Log Out</a> -->
-                <% if(user.authProvider !==null) { %>
-                    <img src="<%=user.photo %>" alt="<%=user.name%>">
-                    <% }else{ %>
-                        <img src="/img/users/<%=user.photo %>" alt="<%=user.name%>">
-                        <%}%>
+                <img src="<%=user.photo %>" alt="<%=user.name%>">
             </div>
         </div>
     </nav>
@@ -76,9 +72,9 @@
                                         value='0<%=user.phone %>' required="" name="phone">
                                 </div>
                                 <div class="form__group form__photo-upload">
-                                    <img class="form__user-photo" src="/img/users/<%=user.photo %>"
-                                        alt="User photo"><input class="form__upload" type="file" accept="image/*"
-                                        id="photo" name="photo"><label for="photo">Choose
+                                    <img class="form__user-photo" src="<%=user.photo %>" alt="User photo"><input
+                                        class="form__upload" type="file" accept="image/*" id="photo" name="photo"><label
+                                        for="photo">Choose
                                         new photo</label>
                                 </div>
                                 <div class="form__group right"><button class="btn btn--small btn--green"

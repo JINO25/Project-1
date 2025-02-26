@@ -25,6 +25,7 @@ export const updateSettings = async (data, type, apiUrl) => {
         })
         if (res.data.status === 'success') {
             showAlert('success', `${type.toUpperCase()} updated successfully`);
+            window.location.reload();
         }
         if (type === 'photo') {
             return res.data.data.user.photo;

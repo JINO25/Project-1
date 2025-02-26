@@ -165,14 +165,13 @@ if (userDataForm) {
     userDataForm.addEventListener('submit', e => {
         e.preventDefault();
         const form = new FormData();
-        const email = document.getElementById('email_google').value;
+        const email = document.getElementById('email_google');
 
         if (email) {
             form.append('name', document.getElementById('name').value);
             form.append('phone', document.getElementById('phone').value);
         } else {
             form.append('name', document.getElementById('name').value);
-            form.append('email', document.getElementById('email').value);
             form.append('phone', document.getElementById('phone').value);
             form.append('photo', document.getElementById('photo').files[0]);
         }
