@@ -55,18 +55,22 @@
                     <li class="nav-item"><a href="#" class="nav-link">Contact</a></li> -->
                     <% if(user) { %>
                         <li class="nav-item login">
-                            <img src="/img/users/<%=user.photo %>" alt="<%=user.name%>">
-                            <a href="#" class="nav-link">User</a>
-                            <div class="user_board">
-                                <ul>
-                                    <button class="user_board-item"> <a href="/me"><i
-                                                class="fa-solid fa-user"></i>Profile </a></button>
-                                    <button class="user_board-item item-logout"><i
-                                            class="fa-solid fa-right-from-bracket"></i>Log
-                                        out
-                                    </button>
-                                </ul>
-                            </div>
+                            <% if(user.authProvider !==null) { %>
+                                <img src="<%=user.photo %>" alt="<%=user.name%>">
+                                <% }else{ %>
+                                    <img src="/img/users/<%=user.photo %>" alt="<%=user.name%>">
+                                    <%}%>
+                                        <a href="#" class="nav-link">User</a>
+                                        <div class="user_board">
+                                            <ul>
+                                                <button class="user_board-item"> <a href="/me"><i
+                                                            class="fa-solid fa-user"></i>Profile </a></button>
+                                                <button class="user_board-item item-logout"><i
+                                                        class="fa-solid fa-right-from-bracket"></i>Log
+                                                    out
+                                                </button>
+                                            </ul>
+                                        </div>
                         </li>
                         <% }else { %>
                             <li class="nav-item cta"><a href="/login" id="login" class="nav-link"><span>Login</span></a>

@@ -16,7 +16,11 @@
             <a class="navbar-brand" href="/">dirEngine.</a>
             <div class="navbar__user">
                 <!-- <a class="logOut" href="#">Log Out</a> -->
-                <img src="/img/users/<%=user.photo %>" alt="person">
+                <% if(user.authProvider !==null) { %>
+                    <img src="<%=user.photo %>" alt="<%=user.name%>">
+                    <% }else{ %>
+                        <img src="/img/users/<%=user.photo %>" alt="<%=user.name%>">
+                        <%}%>
             </div>
         </div>
     </nav>
@@ -42,45 +46,67 @@
             <div class="user-view__content setting">
                 <div class="user-view__form-container">
                     <h2 class="heading-secondary ma-bt-md">Your account settings</h2>
-                    <form class="form-user form-user-data">
-                        <div class="form__group"><label class="form__label" for="name">Tên</label><input
-                                class="form__input" id="name" type="text" value=<%=user.name %> required=""
-                            name="name"
-                            fdprocessedid="4vdoe7"></div>
-                        <div class="form__group ma-bt-md"><label class="form__label" for="email">Email
-                            </label><input class="form__input" id="email" type="email" value=<%=user.email %>
-                            required="" name="email" fdprocessedid="gr5el"></div>
-                        <div class="form__group ma-bt-md"><label class="form__label" for="phone">Điện thoại
-                            </label><input class="form__input" id="phone" type="number" value='0<%=user.phone %>'
-                                required="" name="phone"></div>
-                        <div class="form__group form__photo-upload">
-                            <img class="form__user-photo" src="/img/users/<%=user.photo %>" alt="User photo"><input
-                                class="form__upload" type="file" accept="image/*" id="photo" name="photo"><label
-                                for="photo">Choose
-                                new photo</label>
-                        </div>
-                        <div class="form__group right"><button class="btn btn--small btn--green"
-                                fdprocessedid="peb61o">Save
-                                settings</button></div>
-                    </form>
+                    <% if(user.authProvider) { %>
+                        <form class="form-user form-user-data">
+                            <div class="form__group"><label class="form__label" for="name">Tên</label><input
+                                    class="form__input" id="name" type="text" value='<%=user.name %>' required=""
+                                    name="name" fdprocessedid="4vdoe7"></div>
+                            <div class="form__group ma-bt-md"><label class="form__label" for="email">Email
+                                </label><input class="form__input" id="email_google" type="email" value=<%=user.email %>
+                                required="" name="email" fdprocessedid="gr5el" disabled=' true'></div>
+                            <div class="form__group ma-bt-md"><label class="form__label" for="phone">Điện thoại
+                                </label><input class="form__input" id="phone" type="number" value='0<%=user.phone %>'
+                                    required="" name="phone">
+                            </div>
+                            <div class="form__group right"><button class="btn btn--small btn--green"
+                                    fdprocessedid="peb61o">Save
+                                    settings</button></div>
+                        </form>
+                        <% } else { %>
+                            <form class="form-user form-user-data">
+                                <div class="form__group"><label class="form__label" for="name">Tên</label><input
+                                        class="form__input" id="name" type="text" value=<%=user.name %> required=""
+                                    name="name"
+                                    fdprocessedid="4vdoe7"></div>
+                                <div class="form__group ma-bt-md"><label class="form__label" for="email">Email
+                                    </label><input class="form__input" id="email" type="email" value=<%=user.email %>
+                                    required="" name="email" fdprocessedid="gr5el"></div>
+                                <div class="form__group ma-bt-md"><label class="form__label" for="phone">Điện thoại
+                                    </label><input class="form__input" id="phone" type="number"
+                                        value='0<%=user.phone %>' required="" name="phone">
+                                </div>
+                                <div class="form__group form__photo-upload">
+                                    <img class="form__user-photo" src="/img/users/<%=user.photo %>"
+                                        alt="User photo"><input class="form__upload" type="file" accept="image/*"
+                                        id="photo" name="photo"><label for="photo">Choose
+                                        new photo</label>
+                                </div>
+                                <div class="form__group right"><button class="btn btn--small btn--green"
+                                        fdprocessedid="peb61o">Save
+                                        settings</button></div>
+                            </form>
+                            <%}%>
                 </div>
                 <div class="line">&nbsp;</div>
-                <div class="user-view__form-container">
-                    <h2 class="heading-secondary ma-bt-md">Password change</h2>
-                    <form class="form-user form-user-password">
-                        <div class="form__group"><label class="form__label" for="password-current">Current
-                                password</label><input class="form__input" id="password-current" type="password"
-                                placeholder="••••••••" required="" minlength="8" fdprocessedid="ai82jo"></div>
-                        <div class="form__group"><label class="form__label" for="password">New password</label><input
-                                class="form__input" id="password" type="password" placeholder="••••••••" required=""
-                                minlength="8" fdprocessedid="zudqt"></div>
-                        <div class="form__group ma-bt-lg"><label class="form__label" for="password-confirm">Confirm
-                                password</label><input class="form__input" id="password-confirm" type="password"
-                                placeholder="••••••••" required="" minlength="8" fdprocessedid="8hhx6n"></div>
-                        <div class="form__group right"><button class="btn btn--small btn--green btn--save-password"
-                                fdprocessedid="uqve5g">Save password</button></div>
-                    </form>
-                </div>
+                <%if(!user.authProvider) { %>
+
+                    <div class="user-view__form-container">
+                        <h2 class="heading-secondary ma-bt-md">Password change</h2>
+                        <form class="form-user form-user-password">
+                            <div class="form__group"><label class="form__label" for="password-current">Current
+                                    password</label><input class="form__input" id="password-current" type="password"
+                                    placeholder="••••••••" required="" minlength="8" fdprocessedid="ai82jo"></div>
+                            <div class="form__group"><label class="form__label" for="password">New
+                                    password</label><input class="form__input" id="password" type="password"
+                                    placeholder="••••••••" required="" minlength="8" fdprocessedid="zudqt"></div>
+                            <div class="form__group ma-bt-lg"><label class="form__label" for="password-confirm">Confirm
+                                    password</label><input class="form__input" id="password-confirm" type="password"
+                                    placeholder="••••••••" required="" minlength="8" fdprocessedid="8hhx6n"></div>
+                            <div class="form__group right"><button class="btn btn--small btn--green btn--save-password"
+                                    fdprocessedid="uqve5g">Save password</button></div>
+                        </form>
+                    </div>
+                    <% } %>
             </div>
             <!-- --------------------- -->
             <div class="user-view__content booking inactive">

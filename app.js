@@ -10,7 +10,9 @@ const pug = require('pug')
 const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
-
+const passport = require('passport');
+const session = require('express-session');
+const bcrypt = require("bcrypt");
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRouter');
@@ -34,14 +36,16 @@ const scriptSrcUrls = [
     'https://*.cloudflare.com',
     'https://*.stripe.com',
     'https://*.js.stripe.com',
-    'https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js'
+    'https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
 ];
 
 const styleSrcUrls = [
     "'self'",
     "'unsafe-inline'",
     'https://fonts.googleapis.com',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css'
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
 ];
 
 const fontSrcUrls = [
@@ -61,7 +65,7 @@ app.use(
                 `ws://localhost:3000/`,
                 'https://checkout.stripe.com',
                 'https://api.stripe.com',
-                'https://maps.googleapis.com'],
+                'https://maps.googleapis.com', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'],
             scriptSrc: ["'self'", "'nonce-yourNonce'",
                 "'sha256-ajGjo5eD0JzFPdnpuutKT6Sb5gLu+Q9ru594rwJogGQ='",
                 "'unsafe-eval'",
@@ -81,6 +85,15 @@ app.use(
 
 
 app.use(cookieParser());
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+app.use(passport.initialize());
+app.use(passport.session())
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))

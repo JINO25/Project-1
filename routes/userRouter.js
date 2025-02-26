@@ -6,10 +6,14 @@ const express = require('express')
 const router = express.Router();
 const userController = require('./../controller/userController');
 const authenController = require('./../controller/authenController');
+const Oauth = require('./Oauth')
 
 router.post('/login', authenController.login);
 router.post('/signup', authenController.signup);
 router.get('/logout', authenController.logout);
+// login with google
+router.get('/login/google', Oauth.googleAuth);
+router.get('/login/google/callback', Oauth.googleAuthCallback);
 
 //via email
 router.post('/forgotPassword', authenController.forgotPassword);

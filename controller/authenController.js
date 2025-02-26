@@ -42,6 +42,12 @@ const sendToken = (user, statusCode, res) => {
 }
 
 exports.protect = catchAsync(async (req, res, next) => {
+    //check session if user login by Gg
+    if (req.user) {
+        res.locals.user = req.user;
+        return next();
+    }
+
     let token;
     //1) Getting token and check it's there
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {

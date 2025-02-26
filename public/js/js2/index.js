@@ -11,17 +11,19 @@ const currentOrigin = new URL(currentUrl).origin;
 // Combine the origin and API path to get the full API URL
 const apiUrl = `${currentOrigin}`;
 
+if (document.getElementById("sort")) {
 
-document.getElementById("sort").addEventListener("change", function () {
-    const sortValue = this.value;
-    const url = new URL(window.location.href);
+    document.getElementById("sort").addEventListener("change", function () {
+        const sortValue = this.value;
+        const url = new URL(window.location.href);
 
-    url.searchParams.set("sort", sortValue);
+        url.searchParams.set("sort", sortValue);
 
-    window.location.href = url.toString();
+        window.location.href = url.toString();
 
-});
+    });
 
+}
 const formLogin = document.querySelector('.login-form');
 const formSignUp = document.querySelector('.register-form');
 const formForgotPwd = document.querySelector('.forgot-password-page');
@@ -163,10 +165,17 @@ if (userDataForm) {
     userDataForm.addEventListener('submit', e => {
         e.preventDefault();
         const form = new FormData();
-        form.append('name', document.getElementById('name').value);
-        form.append('email', document.getElementById('email').value);
-        form.append('phone', document.getElementById('phone').value);
-        form.append('photo', document.getElementById('photo').files[0]);
+        const email = document.getElementById('email_google').value;
+
+        if (email) {
+            form.append('name', document.getElementById('name').value);
+            form.append('phone', document.getElementById('phone').value);
+        } else {
+            form.append('name', document.getElementById('name').value);
+            form.append('email', document.getElementById('email').value);
+            form.append('phone', document.getElementById('phone').value);
+            form.append('photo', document.getElementById('photo').files[0]);
+        }
 
         updateSettings(form, 'data', apiUrl);
     });

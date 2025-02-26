@@ -806,3 +806,11 @@ input::-webkit-inner-spin-button {
         transform-origin: 50% 0
     }
 }
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
