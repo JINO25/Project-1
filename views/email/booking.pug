@@ -1,0 +1,26 @@
+extends baseEmail
+
+block content
+    p Hi #{firstName},
+    p Your booking for <strong>#{booking.tour.name}</strong> has been successfully confirmed! 🎉
+    p Here are your booking details:
+    ul
+        li <strong>Tour Name:</strong> #{booking.tour.name}
+        li <strong>Date Booked:</strong> #{booking.createdAt}
+        li <strong>Departure Date:</strong> #{booking.date}
+        li <strong>Price:</strong> $#{booking.price.toLocaleString()}
+        li <strong>Number of Guests:</strong> #{booking.quantity}
+    p If you have account on our website, click this url to check: 
+        table.btn.btn-primary(role='presentation' border='0' cellpadding='0' cellspacing='0')
+            tbody
+                tr
+                    td(align='left')
+                        table(role='presentation' border='0' cellpadding='0' cellspacing='0')
+                            tbody
+                                tr
+                                    td
+                                        a(href=`${url}`, target='_blank') Check Your Tour
+    p We're excited to have you on board and can't wait for you to experience this amazing journey!           
+    p If you have any questions or need assistance, feel free to contact us.
+    p Have a great trip! ✈️🌍
+    p - Traveling DirEngine

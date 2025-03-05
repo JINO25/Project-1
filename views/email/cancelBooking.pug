@@ -1,0 +1,19 @@
+extends baseEmail
+
+block content
+    p Hi #{firstName},
+    p We’re sorry to see you go! Your booking for <strong>#{booking.tourName}</strong> on <strong>#{booking.tourDate}</strong> has been successfully canceled. 😢
+
+    p Here are the details of your canceled booking:
+    ul
+        li <strong>Tour Name:</strong> #{booking.tour.name}
+        li <strong>Date:</strong> #{booking.date}
+        li <strong>Price:</strong> $#{booking.price.toLocaleString()}
+        li <strong>Number of Guests:</strong> #{booking.quantity}
+
+    p If you're eligible for a refund, you should receive it within <strong>5-7 business days</strong>.  
+
+    p If you have any questions or would like to book another amazing tour, feel free to check our latest deals!  
+
+    p We hope to see you again soon! ❤️
+    p - Traveling DirEngine

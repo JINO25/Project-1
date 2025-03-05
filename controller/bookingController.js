@@ -5,6 +5,7 @@ const CreateError = require('../utils/CreateError');
 const APIFeature = require('../utils/apiFeatures');
 const Tour = require("../models/tourModel");
 const Booking = require("../models/bookingModel");
+const Email = require('../utils/email');
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.createBooking = catchAsync(async (req, res, next) => {
@@ -155,7 +156,7 @@ exports.createCheckoutSessionGuest = catchAsync(async (req, res) => {
 exports.paymentSuccess = catchAsync(async (req, res, next) => {
     const { tour, user, price, quantity, date } = req.query;
     let isGuest = false;
-
+    const url = `${req.protocol}://${req.get('host')}/me`;
     if (typeof user === 'string' && user.startsWith('{')) {
 
         const guestUser = JSON.parse(user);
@@ -163,7 +164,7 @@ exports.paymentSuccess = catchAsync(async (req, res, next) => {
         isGuest = true;
 
         if (!tour && !user && !price) return next();
-        await Booking.create({
+        const booking = await Booking.create({
             tour,
             guestName: name,
             guestEmail: email,
@@ -176,12 +177,18 @@ exports.paymentSuccess = catchAsync(async (req, res, next) => {
             date: date
         });
 
+        await booking.populate('tour', 'name price');
+        await new Email(guestUser, url, booking).sendBookingConfirmation();
         res.redirect(req.originalUrl.split('?')[0]);
 
     } else {
 
         if (!tour && !user && !price) return next();
-        await Booking.create({ tour, user, price, quantity, methodPayment: 'Card', date: date });
+        const booking = await Booking.create({ tour, user, price, quantity, methodPayment: 'Card', date: date });
+
+        await booking.populate('tour user', 'name price email');
+        await new Email(booking.user, url, booking).sendBookingConfirmation();
+
         res.redirect(req.originalUrl.split('?')[0]);
     }
 
@@ -192,6 +199,8 @@ exports.cashSuccess = catchAsync(async (req, res, next) => {
     let isGuest = false;
     const tour = await Tour.findById(tourId);
     const price = tour.price;
+    const url = `${req.protocol}://${req.get('host')}/me`;
+
     if (typeof data === 'string' && data.startsWith('{')) {
 
         const guestUser = JSON.parse(data);
@@ -199,7 +208,7 @@ exports.cashSuccess = catchAsync(async (req, res, next) => {
         isGuest = true;
 
         if (!tourId && !guestName && !guestEmail && !guestPhone && !price) return next();
-        await Booking.create({
+        const booking = await Booking.create({
             tour: tourId,
             guestName,
             guestEmail,
@@ -213,6 +222,9 @@ exports.cashSuccess = catchAsync(async (req, res, next) => {
             date: date
         });
 
+        await booking.populate('tour', 'name price');
+        await new Email(guestUser, url, booking).sendBookingConfirmation();
+
         return res.status(200).json({
             status: 'success'
         })
@@ -221,7 +233,10 @@ exports.cashSuccess = catchAsync(async (req, res, next) => {
         const user = req.user._id;
         const { quantity } = req.query
         if (!tourId && !user && !price) return next();
-        await Booking.create({ tour, user, price, quantity, methodPayment: 'tiền mặt', paid: false, date: date });
+        const booking = await Booking.create({ tour, user, price, quantity, methodPayment: 'tiền mặt', paid: false, date: date });
+
+        await booking.populate('tour user', 'name price email');
+        await new Email(booking.user, url, booking).sendBookingConfirmation();
 
         return res.status(200).json({
             status: 'success'

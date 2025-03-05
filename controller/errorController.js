@@ -38,6 +38,7 @@ const sendErrDev = (err, req, res) => {
     //Render web
     console.error('Error ', err);
     return res.status(err.statusCode).render('error', {
+        user: req.user,
         title: 'Something went wrong!',
         msg: err.message
     });
@@ -66,6 +67,7 @@ const sendErrProd = (err, req, res) => {
     //Operational, trusted err
     if (err.isOperational) {
         return res.status(err.statusCode).render('error', {
+            user: req.user,
             title: 'Something went wrong!',
             msg: err.message
         });
@@ -75,6 +77,7 @@ const sendErrProd = (err, req, res) => {
     console.error('Error ', err);
     //Send generic mess
     return res.status(err.statusCode).render('error', {
+        user: req.user,
         title: 'Something went wrong!',
         msg: 'Please try again later.'
     });

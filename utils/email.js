@@ -5,11 +5,12 @@ const { convert } = require('html-to-text');
 const pug = require('pug');
 
 module.exports = class Email {
-    constructor(user, url) {
-        this.to = user.email;
-        this.firstName = user.name;
+    constructor(user, url = null, booking = null) {
+        this.to = user.email || user.guestEmail;
+        this.firstName = user.name || user.user.name || user.guestName;
         this.url = url;
         this.from = `Jino <${process.env.EMAIL_FROM}>`;
+        this.booking = booking;
     }
 
     newTransport() {
@@ -27,7 +28,8 @@ module.exports = class Email {
         const html = await pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
             firstName: this.firstName,
             url: this.url,
-            subject
+            subject,
+            booking: this.booking
         });
 
         const text = convert(html, {});
@@ -50,5 +52,15 @@ module.exports = class Email {
 
     async sendResetPassword() {
         await this.sendEmail('Reset Password', 'passwordReset');
+    }
+
+    async sendBookingConfirmation() { // ✅ New method for booking confirmation
+        if (!this.booking) throw new Error("Booking details are required to send a booking email.");
+        await this.sendEmail(`Canceling Confirmation: ${this.booking.tour.name}`, 'booking');
+    }
+
+    async sendCancelingConfirmation() { // ✅ New method for booking confirmation
+        if (!this.booking) throw new Error("Booking details are required to send a booking email.");
+        await this.sendEmail(`Booking Confirmation: ${this.booking.tour.name}`, 'cancelBooking');
     }
 };

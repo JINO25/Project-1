@@ -8,6 +8,7 @@ const catchAsync = require('../middlewares/catchAsync');
 const CreateError = require('../utils/CreateError');
 const mongoose = require('mongoose')
 const APIFeature = require('../utils/apiFeatures');
+const Email = require('../utils/email');
 
 exports.getOverview = catchAsync(async (req, res) => {
 
@@ -157,10 +158,12 @@ exports.cancelBookingTour = (async (req, res) => {
     const data = await Booking.findOne({ _id: bookingId, user: user.id });
 
     const check = isThreeDaysDifference(data.date);
+    console.log('check day canceled: ', check);
 
     if (check > 4) {
+        await data.populate('tour', 'name');
+        await new Email(user, null, data).sendCancelingConfirmation();
         await data.deleteOne();
-
         return res.status(200).json({
             status: 'success'
         })
