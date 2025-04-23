@@ -43,7 +43,8 @@ class APIFeature {
 
     pagination() {
         const page = this.queryParam.page * 1 || 1;
-        const limit = this.queryParam.limit * 1 || 100;
+        // const limit = this.queryParam.limit * 1 || 100;
+        const limit = process.env.LIMITPAGE;
         const skip = (page - 1) * limit;
         this.query = this.query.skip(skip).limit(limit);
         return this;

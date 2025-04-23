@@ -35,6 +35,8 @@ passport.use(new GoogleStrategy({
         if (profile.id) {
             User.findOne({ email: profile.emails[0].value }).then((el) => {
                 if (el) {
+                    console.log(`accessToken: ${accessToken}`)
+                    console.log(`refreshToken: ${refreshToken}`)
                     done(null, el)
                 } else {
                     const randomPass = crypto.randomBytes(20).toString('hex');

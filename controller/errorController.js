@@ -26,7 +26,7 @@ const handleValidationErrorDB = err => {
 
 const sendErrDev = (err, req, res) => {
     // API
-    if (req.originalUrl.startsWith('/api')) {
+    if (req.originalUrl.startsWith('/api') || req.originalUrl.startsWith('/')) {
         return res.status(err.statusCode).json({
             status: err.status,
             statusCode: err.statusCode,

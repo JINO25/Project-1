@@ -11,8 +11,12 @@ const APIFeature = require('../utils/apiFeatures');
 const Email = require('../utils/email');
 
 exports.getOverview = catchAsync(async (req, res) => {
+    const limit = process.env.LIMITPAGE;
+    const totalTours = await Tour.countDocuments();
+    const totalPages = Math.ceil(totalTours / limit);
+    const page = parseInt(req.query.page) || 1;
 
-    const features = new APIFeature(Tour.find(), req.query).sort();
+    const features = new APIFeature(Tour.find(), req.query).sort().pagination();
 
     const tours = await features.query;
 
@@ -20,6 +24,8 @@ exports.getOverview = catchAsync(async (req, res) => {
         user: res.locals.user,
         title: 'All Tours',
         tours,
+        currentPage: page,
+        totalPages
     });
 });
 
@@ -35,9 +41,18 @@ exports.getTour = catchAsync(async (req, res, next) => {
         select: 'review rating user'
     });
 
-    if (tour === undefined) {
-        return next(new CreateError('No tour found with that name', 404));
+    if (tour === undefined || tour === null) {
+        // next(new CreateError('No tour found with that name', 404));
+        return res.status(404).render('404', {
+            user: req.user,
+            title: 'Something went wrong!',
+            msg: 'Tour not found!'
+        });
     }
+
+    let relativeTours = await Tour.find({
+        sightseeing: { $regex: tour.name.split(' ')[0], $options: 'i' }
+    }).limit(3);
 
     //find the reviews of users
     const users = await User.find();
@@ -73,6 +88,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
         tour,
         booked,
         reviewed,
+        relativeTours
     });
 });
 

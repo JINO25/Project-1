@@ -6,8 +6,10 @@ const pug = require('pug');
 
 module.exports = class Email {
     constructor(user, url = null, booking = null) {
+        console.log(user);
+
         this.to = user.email || user.guestEmail;
-        this.firstName = user.name || user.user.name || user.guestName;
+        this.firstName = user.name || user.user?.name || user.guestName;
         this.url = url;
         this.from = `Jino <${process.env.EMAIL_FROM}>`;
         this.booking = booking;
@@ -21,6 +23,13 @@ module.exports = class Email {
                 user: process.env.EMAIL_USERNAME,
                 pass: process.env.EMAIL_PASSWORD
             }
+
+            // mail services
+            // service: "gmail",
+            // auth: {
+            //     user: process.env.S_EMAIL,
+            //     pass: process.env.S_PASS
+            // }
         });
     }
 

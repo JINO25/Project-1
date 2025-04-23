@@ -332,7 +332,7 @@
                                                                                             <div
                                                                                                 class="testimony-wrap d-flex">
                                                                                                 <div class="user-img mb-5"
-                                                                                                    style="background-image: url(/img/users/<%=r.user.photo%>)">
+                                                                                                    style="background-image: url(<%=r.user.photo%>)">
                                                                                                     <span
                                                                                                         class="quote d-flex align-items-center justify-content-center">
                                                                                                         <i
@@ -370,8 +370,7 @@
                                                             <div class="review-list">
                                                                 <% tour.reviews.forEach((r)=> { %>
                                                                     <div class="review-item">
-                                                                        <img src="/img/users/<%=r.user.photo%>"
-                                                                            alt="User 1">
+                                                                        <img src="<%=r.user.photo%>" alt="User 1">
                                                                         <div class="review-content">
                                                                             <h3>
                                                                                 <%= r.user.name %>
@@ -387,7 +386,7 @@
                                                                                                 <% } %>
                                                                             </div>
                                                                             <p>
-                                                                                <%=r.review %> >
+                                                                                <%=r.review %>
                                                                             </p>
                                                                         </div>
                                                                     </div>
@@ -402,96 +401,72 @@
                         <div class="col-md-12 hotel-single ftco-animate mb-5 mt-5">
                             <h4 class="mb-4">Có thể bạn sẽ thích</h4>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="destination">
-                                        <a href="hotel-single.html" class="img img-2"
-                                            style="background-image: url();"></a>
-                                        <div class="text p-3">
-                                            <div class="d-flex">
-                                                <div class="one">
-                                                    <h3><a href="hotel-single.html">Hotel, Italy</a></h3>
-                                                    <p class="rate">
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star-o"></i>
-                                                        <span>8 Rating</span>
-                                                    </p>
+                                <% relativeTours.forEach(function(tour){ %>
+                                    <div class="col-md-4 ftco-animate">
+                                        <div class="destination">
+                                            <a href='/tour/<%= tour.slug %>'
+                                                class="img img-2 d-flex justify-content-center align-items-center"
+                                                style="background-image: url(/img/tour/<%=tour.imageCover%>);">
+                                                <div class="icon d-flex justify-content-center align-items-center">
+                                                    <span class="icon-search2"></span>
                                                 </div>
+                                            </a>
+                                            <div class="text p-3">
+                                                <div class="d-flex">
+                                                    <div class="one">
+                                                        <h3><a href="#">
+                                                                <%= tour.name %>
+                                                            </a></h3>
+                                                        <p class="rate">
+                                                            <% for (let i=1; i <=5; i++) { %>
+                                                                <% if (i <=tour.ratingsAverage) { %>
+                                                                    <i class="icon-star"></i>
+                                                                    <% } else { %>
+                                                                        <i class="icon-star-o"></i>
+                                                                        <% } %>
+                                                                            <% } %>
+                                                                                <span>
+                                                                                    <%= tour.ratingsQuantity %> Rating
+                                                                                </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!-- <p>
+                            											<%= tour.description %>>
+                            										</p> -->
+                                                <p class="startDate">
+                                                    <span>
+                                                        <i class="fa-regular fa-calendar-days"></i>
+                                                        Ngày khởi hành:
+                                                        <% for(let i=0; i<tour.startDate.length; i++) { %>
+                                                            <%= tour.startDate[i].date %>
+                                                                <% } %>
+                                                    </span>
+                                                </p>
+                                                <p class="days">
+                                                    <span>
+                                                        <i class="fa-regular fa-clock"></i>
+                                                        <%= tour.duration %>
+                                                    </span>
+                                                </p>
                                                 <div class="two">
-                                                    <span class="price per-price">$40<br><small>/night</small></span>
+                                                    <span class="price">
+                                                        <%= tour.price.toLocaleString() %>đ/Khách
+                                                    </span>
                                                 </div>
+                                                <hr>
+                                                <p class="bottom-area">
+                                                    <span><i class="icon-map-o"></i>Nơi khởi hành: <%=
+                                                            tour.startLocation %>
+                                                    </span>
+                                                    <span class="ml-auto"
+                                                        style="display: flex; justify-content: flex-end;"><a
+                                                            href="/tour/<%= tour.slug %>">Đặt Ngay</a></span>
+                                                </p>
                                             </div>
-                                            <p>Far far away, behind the word mountains, far from the countries</p>
-                                            <hr>
-                                            <p class="bottom-area d-flex">
-                                                <span><i class="icon-map-o"></i> Miami, Fl</span>
-                                                <span class="ml-auto"><a href="#">Book Now</a></span>
-                                            </p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="destination">
-                                        <a href="hotel-single.html" class="img img-2"
-                                            style="background-image: url();"></a>
-                                        <div class="text p-3">
-                                            <div class="d-flex">
-                                                <div class="one">
-                                                    <h3><a href="hotel-single.html">Hotel, Italy</a></h3>
-                                                    <p class="rate">
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star-o"></i>
-                                                        <span>8 Rating</span>
-                                                    </p>
-                                                </div>
-                                                <div class="two">
-                                                    <span class="price per-price">$40<br><small>/night</small></span>
-                                                </div>
-                                            </div>
-                                            <p>Far far away, behind the word mountains, far from the countries</p>
-                                            <hr>
-                                            <p class="bottom-area d-flex">
-                                                <span><i class="icon-map-o"></i> Miami, Fl</span>
-                                                <span class="ml-auto"><a href="#">Book Now</a></span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="destination">
-                                        <a href="hotel-single.html" class="img img-2"
-                                            style="background-image: url();"></a>
-                                        <div class="text p-3">
-                                            <div class="d-flex">
-                                                <div class="one">
-                                                    <h3><a href="hotel-single.html">Hotel, Italy</a></h3>
-                                                    <p class="rate">
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star"></i>
-                                                        <i class="icon-star-o"></i>
-                                                        <span>8 Rating</span>
-                                                    </p>
-                                                </div>
-                                                <div class="two">
-                                                    <span class="price per-price">$40<br><small>/night</small></span>
-                                                </div>
-                                            </div>
-                                            <p>Far far away, behind the word mountains, far from the countries</p>
-                                            <hr>
-                                            <p class="bottom-area d-flex">
-                                                <span><i class="icon-map-o"></i> Miami, Fl</span>
-                                                <span class="ml-auto"><a href="#">Book Now</a></span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <% }) %>
                             </div>
                         </div>
                     </div> <!-- .col-md-8 -->

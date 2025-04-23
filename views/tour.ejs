@@ -71,7 +71,7 @@
 								<div class="destination">
 									<a href='/tour/<%= tour.slug %>'
 										class="img img-2 d-flex justify-content-center align-items-center"
-										style="background-image: url(img/tour/<%=tour.imageCover%>);">
+										style="background-image: url(/img/tour/<%=tour.imageCover%>);">
 										<div class="icon d-flex justify-content-center align-items-center">
 											<span class="icon-search2"></span>
 										</div>
@@ -153,14 +153,31 @@
 						<div class="col text-center">
 							<div class="block-27">
 								<ul>
-									<li><a href="#">&lt;</a></li>
-									<li class="active"><span>1</span></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#">&gt;</a></li>
+									<% if (currentPage> 1) { %>
+										<li><a href="?page=<%= currentPage - 1 %>">&lt;</a></li>
+										<% } else { %>
+											<li class="disabled"><span>&lt;</span></li>
+											<% } %>
+												<% for (let i=1; i <=totalPages; i++) { %>
+													<li class="<%= i === currentPage ? 'active' : '' %>">
+														<% if (i===currentPage) { %>
+															<span>
+																<%= i %>
+															</span>
+															<% } else { %>
+																<a href="?page=<%= i %>">
+																	<%= i %>
+																</a>
+																<% } %>
+													</li>
+													<% } %>
+														<% if (currentPage < totalPages ) { %>
+															<li><a href="?page=<%= currentPage + 1 %>">&gt;</a></li>
+															<% } else { %>
+																<li class="disabled"><span>&gt;</span></li>
+																<% } %>
 								</ul>
+
 							</div>
 						</div>
 					</div>
