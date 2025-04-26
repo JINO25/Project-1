@@ -213,7 +213,7 @@ if (form) {
         const minRangeInput = document.getElementById('minRange');
         const maxRangeInput = document.getElementById('maxRange');
         const destinationInput = document.getElementById('destination');
-        const checkinDateInput = document.getElementById('date');
+        const checkInDateInput = document.getElementById('date');
         const btn = document.querySelector('.btn');
 
         minPriceInput.addEventListener('input', function () {
@@ -236,8 +236,8 @@ if (form) {
             e.preventDefault();
 
             const destination = destinationInput.value;
-            const checkinDate = checkinDateInput.value;
-            const date = new Date(checkinDate).toLocaleDateString('en-GB');
+            const checkInDate = checkInDateInput.value;
+            const date = new Date(checkInDate).toLocaleDateString('en-GB');
             const minPrice = minPriceInput.value;
             const maxPrice = maxPriceInput.value;
 
@@ -249,7 +249,7 @@ if (form) {
             });
 
             const baseUrl = window.location.origin;
-            const newUrl = `${baseUrl}/search?destination=${encodeURIComponent(destination)}&dateFrom=${checkinDate}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+            const newUrl = `${baseUrl}/search?destination=${encodeURIComponent(destination)}&dateFrom=${checkInDate}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
 
             location.replace(newUrl);
         });
