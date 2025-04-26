@@ -28,7 +28,8 @@ const sendToken = (user, statusCode, res) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.GgClient_ID,
     clientSecret: process.env.GgClient_Secret,
-    callbackURL: 'http://localhost:3000/api/v1/user/login/google/callback',
+    // callbackURL: 'http://localhost:3000/api/v1/user/login/google/callback',
+    callbackURL: 'https://project-1-q072.onrender.com/api/v1/user/login/google/callback',
     scope: ['profile']
 },
     (accessToken, refreshToken, profile, done) => {
