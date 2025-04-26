@@ -35,8 +35,6 @@ passport.use(new GoogleStrategy({
         if (profile.id) {
             User.findOne({ email: profile.emails[0].value }).then((el) => {
                 if (el) {
-                    console.log(`accessToken: ${accessToken}`)
-                    console.log(`refreshToken: ${refreshToken}`)
                     done(null, el)
                 } else {
                     const randomPass = crypto.randomBytes(20).toString('hex');
@@ -78,10 +76,10 @@ exports.googleAuth = passport.authenticate('google', {
 exports.googleAuthCallback = (req, res, next) => {
     passport.authenticate('google', (err, user) => {
         if (err || !user) {
-            return res.redirect('http://localhost:3000/login')
+            return res.redirect(`${req.protocol}://${req.get('host')}/login`)
         } else {
             sendToken(user, 201, res);
-            res.redirect('http://localhost:3000/')
+            res.redirect(`${req.protocol}://${req.get('host')}/`)
         }
     })(req, res, next)
 }
