@@ -47,17 +47,8 @@ Một ứng dụng web đặt tour du lịch được xây dựng với Node.js,
 ---
 
 ## 📁 Cấu trúc thư mục
-project-root/
-│
-├── controllers/ # Logic xử lý các route
-├── models/ # Mongoose schemas
-├── views/ # Giao diện UI (nếu có)
-├── routes/ # Định nghĩa API routes
-├── utils/ # Tiện ích (email, token, v.v.)
-├── middlewares/ # Middleware như auth, validate
-├── public/ # Tài nguyên tĩnh (ảnh, css)
-├── app.js # Khởi tạo ứng dụng Express
-└── server.js # File chạy server
+![image](https://github.com/user-attachments/assets/4a796d41-4107-41b0-94c2-9b9c69587fb7)
+
 
 ---
 
