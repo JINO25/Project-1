@@ -74,11 +74,13 @@ jobs:
 
       - name: 🚀 Run container (test mode)
         run: |
+          echo "USERNAME is set? -> [${{ secrets.USERNAME != '' }}]"
+          echo "PASSWORD is set? -> [${{ secrets.PASSWORD != '' }}]"
           docker run --rm \
             -e NODE_ENV=${{ secrets.NODE_ENV }} \
             -e PORT=${{ secrets.PORT }} \
             -e LIMITPAGE=${{ secrets.LIMITPAGE }} \
-            -e PASSWORD="$PASSWORD" \          
+            -e PASSWORD="${{ secrets.PASSWORD }}" \       
             -e USERNAME=${{ secrets.USERNAME }} \            
             -e DATABASE=${{ secrets.DATABASE }} \
             -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
