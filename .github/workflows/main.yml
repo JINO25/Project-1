@@ -54,7 +54,7 @@ jobs:
         run: npm install
 
       - name: ✅ Run build
-        run: npm run build
+        run: npm build
 
   docker-build-test:
     name: 🐳 Build & Test Docker
