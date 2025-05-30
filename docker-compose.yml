@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  tour-app:
+    image: project1/node:v1
+    container_name: tour-booking
+    ports:
+      - "3000:3000"
+    env_file:
+      - config.env
+    restart: unless-stopped
