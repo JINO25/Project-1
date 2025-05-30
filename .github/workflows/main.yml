@@ -59,6 +59,11 @@ jobs:
       - name: ✅ Run tests (nếu có test script)
         run: npm run test --if-present
 
+      - name: 🚀 Run app to test DB connection
+        run: |
+          echo "▶️ Running server..."
+          node server.js
+
   docker-build-test:
     runs-on: ubuntu-latest
     needs: node-test
