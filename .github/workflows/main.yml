@@ -77,8 +77,7 @@ jobs:
             -e NODE_ENV=${{ secrets.NODE_ENV }} \
             -e PORT=${{ secrets.PORT }} \
             -e LIMITPAGE=${{ secrets.LIMITPAGE }} \
-            -e USERNAME=${{ secrets.USERNAME }} \
-            -e PASSWORD=${{ secrets.PASSWORD }} \
+            -e USERNAME=${{ secrets.USERNAME }} \            
             -e DATABASE=${{ secrets.DATABASE }} \
             -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
             -e JWT_EXPIRIES=${{ secrets.JWT_EXPIRIES }} \
@@ -102,4 +101,5 @@ jobs:
             -e Cloudinary_NAME=${{ secrets.Cloudinary_NAME }} \
             -e Cloudinary_API=${{ secrets.Cloudinary_API }} \
             -e Cloudinary_SECRET=${{ secrets.Cloudinary_SECRET }} \
+            -e PASSWORD=${{ secrets.PASSWORD }} \
             tour-app:ci npm test
