@@ -17,19 +17,19 @@ module.exports = class Email {
 
     newTransport() {
         return nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port: process.env.EMAIL_PORT,
-            auth: {
-                user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD
-            }
+            // host: process.env.EMAIL_HOST,
+            // port: process.env.EMAIL_PORT,
+            // auth: {
+            //     user: process.env.EMAIL_USERNAME,
+            //     pass: process.env.EMAIL_PASSWORD
+            // }
 
             // mail services
-            // service: "gmail",
-            // auth: {
-            //     user: process.env.S_EMAIL,
-            //     pass: process.env.S_PASS
-            // }
+            service: "gmail",
+            auth: {
+                user: process.env.S_EMAIL,
+                pass: process.env.S_PASS
+            }
         });
     }
 
