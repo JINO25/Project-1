@@ -49,17 +49,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
-      - name: Get Node.js version
-        id: node-version
-        run: |
-          NODE_VERSION=$(node -v | sed 's/v//')  # Lấy phiên bản Node.js và loại bỏ "v"
-          echo "Node version: $NODE_VERSION"
-          echo "::set-output name=node_version::$NODE_VERSION"
 
-      - name: Get current timestamp
-        id: date
-        run: echo "::set-output name=timestamp::$(date +'%Y%m%d')"
+      - name: Set environment variables
+        run: |
+          NODE_VER=$(node -v | sed 's/v//')
+          BUILD_DATE=$(date +'%Y%m%d')    
+          echo "NODE_VERSION=$NODE_VER" >> $GITHUB_ENV
+          echo "BUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
 
       - name: 📦 Install dependencies
         run: npm ci
@@ -116,7 +112,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ steps.node-version.outputs.node_version }}-${{ steps.date.outputs.timestamp }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ env.NODE_VER }}-${{ env.BUILD_DATE }}
 
       - name: Run Docker container
         run: |
@@ -149,5 +145,5 @@ jobs:
             -e Cloudinary_NAME="$Cloudinary_NAME" \
             -e Cloudinary_API="$Cloudinary_API" \
             -e Cloudinary_SECRET="$Cloudinary_SECRET" \
-            ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ steps.node-version.outputs.node_version }}-${{ steps.date.outputs.timestamp }} npm test
-
+            ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ env.NODE_VER }}-${{ env.BUILD_DATE }} npm test
+          
