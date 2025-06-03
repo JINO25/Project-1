@@ -104,7 +104,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: user/docker-study:latest
+          tags: user/docker-study:nodejs
 
       - name: Run Docker container
         run: |
