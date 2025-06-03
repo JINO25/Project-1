@@ -103,8 +103,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
           push: true
-          tags: user/docker-study:nodejs
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:nodejs
 
       - name: Run Docker container
         run: |
