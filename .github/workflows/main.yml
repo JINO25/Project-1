@@ -149,5 +149,5 @@ jobs:
             -e Cloudinary_NAME="$Cloudinary_NAME" \
             -e Cloudinary_API="$Cloudinary_API" \
             -e Cloudinary_SECRET="$Cloudinary_SECRET" \
-            ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ steps.node-version.outputs.node_version }}-${{ steps.date.outputs.timestamp | cut -c 1-8 }} npm test
+            ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ steps.node-version.outputs.node_version }}-${{ steps.date.outputs.timestamp }} npm test
 
