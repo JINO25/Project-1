@@ -10,6 +10,9 @@ jobs:
   node-test:
     name: 🔧 Node.js Unit Test
     runs-on: ubuntu-latest
+    outputs:
+      node-version: ${{ steps.set-vars.outputs.node-version }}
+      build-date: ${{ steps.set-vars.outputs.build-date }}
 
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
@@ -51,11 +54,14 @@ jobs:
           node-version: '18'
 
       - name: Set environment variables
+        id: set-vars
         run: |
           NODE_VER=$(node -v | sed 's/v//')
           BUILD_DATE=$(date +'%Y%m%d')    
           echo "NODE_VERSION=$NODE_VER" >> $GITHUB_ENV
           echo "BUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
+          echo "node-version=$NODE_VER" >> $GITHUB_OUTPUT
+          echo "build-date=$BUILD_DATE" >> $GITHUB_OUTPUT
 
       - name: 📦 Install dependencies
         run: npm ci
@@ -98,6 +104,7 @@ jobs:
         Cloudinary_NAME: ${{ secrets.Cloudinary_NAME }}
         Cloudinary_API: ${{ secrets.Cloudinary_API }}
         Cloudinary_SECRET: ${{ secrets.Cloudinary_SECRET }}
+    
     steps:
       - uses: actions/checkout@v3
 
@@ -112,7 +119,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ env.NODE_VER }}-${{ env.BUILD_DATE }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ needs.node-test.outputs.node-version }}-${{ needs.node-test.outputs.build-date }}
 
       - name: Run Docker container
         run: |
@@ -145,5 +152,4 @@ jobs:
             -e Cloudinary_NAME="$Cloudinary_NAME" \
             -e Cloudinary_API="$Cloudinary_API" \
             -e Cloudinary_SECRET="$Cloudinary_SECRET" \
-            ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ env.NODE_VER }}-${{ env.BUILD_DATE }} npm test
-          
+            ${{ secrets.DOCKER_HUB_USERNAME }}/docker-study:node-${{ needs.node-test.outputs.node-version }}-${{ needs.node-test.outputs.build-date }} npm test
