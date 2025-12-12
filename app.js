@@ -85,15 +85,15 @@ app.use(
 
 
 app.use(cookieParser());
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
-}));
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false } // Set to true if using HTTPS
+// }));
 
 app.use(passport.initialize());
-app.use(passport.session())
+// app.use(passport.session())
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))

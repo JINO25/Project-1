@@ -58,24 +58,24 @@ passport.use(new GoogleStrategy({
 ));
 
 // Serialize and Deserialize User
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+//     done(null, user.id);
+// });
 
-passport.deserializeUser((id, done) => {
-    console.log('id: ', id);
-    User.findById(id)
-        .then(user => {
-            done(null, user);
-        })
-});
+// passport.deserializeUser((id, done) => {
+//     console.log('id: ', id);
+//     User.findById(id)
+//         .then(user => {
+//             done(null, user);
+//         })
+// });
 
 exports.googleAuth = passport.authenticate('google', {
     scope: ['profile', 'email']
 });
 
 exports.googleAuthCallback = (req, res, next) => {
-    passport.authenticate('google', (err, user) => {
+    passport.authenticate('google', { session: false }, (err, user) => {
         if (err || !user) {
             return res.redirect(`${req.protocol}://${req.get('host')}/login`)
         } else {
